@@ -1,0 +1,177 @@
+anid,cid,pid,exam_total,name,email
+0,#9A74CF21,A12097352,60.5,Philip Kim,phk006@ucsd.edu
+1,#8D984B5E,A99070381,86,Zhiyu Mao,z3mao@ucsd.edu
+2,#3DE75E84,A12025903,96,Erik Mei,ermei@ucsd.edu
+3,#8E7B8277,A99075158,106,Qishan Wu,qiw033@ucsd.edu
+4,#826720C5,A11210284,85.5,Tyler Mcbride Shaver,tshaver@ucsd.edu
+5,#8FB080BF,A99073806,97,Haoran Wang,haw068@ucsd.edu
+6,#84865C5E,A10990552,78.5,Shao Ling Soh,slsoh@ucsd.edu
+7,#8E6F30D1,A99005037,99,Abhishek Goyal,abgoyal@ucsd.edu
+8,#8E14AC36,A97005616,99,Jonathan Alexander Haapala,jhaapala@ucsd.edu
+9,#9729348A,A11685402,65,Alina A Vorobyova,avorobyo@ucsd.edu
+10,#8E14EC76,A99072896,103,Zhiye Zhang,zhz100@ucsd.edu
+11,#8FA4654E,A10878957,77.5,Jordan Benedict Bauer,jbbauer@ucsd.edu
+12,#86408E48,A98024674,51.5,Daniel Sho Sung,d2sung@ucsd.edu
+13,#9A233881,A12096593,100.5,Abhishek Kumar,abkumar@ucsd.edu
+14,#9A4E18CC,A12184176,60,Andy Lum,anlum@ucsd.edu
+15,#916E857A,A11487870,108,Angela Elizabeth Zou,azou@ucsd.edu
+16,#8E7047B9,A11227742,87,Amandeep Singh Sarow,asarow@ucsd.edu
+17,#8DB7F9C3,A97089332,86,Yida Wang,yiw010@ucsd.edu
+18,#8A9B7B6A,A10907717,66.5,Zihao Yang,ziy008@ucsd.edu
+19,#8E6D22C1,A99011577,90,Yuming Qiao,y1qiao@ucsd.edu
+20,#8E53EC31,A99034636,92.5,So Mang Jung,smj016@ucsd.edu
+21,#8E702CD2,A11743642,69,Benjamin Clavey Lebell,blebell@ucsd.edu
+22,#959E2D26,A99045410,87.5,Wei Jen Huang,wjhuang@ucsd.edu
+23,#8ED03B65,A11234954,45.5,Derek Lee,drl010@ucsd.edu
+24,#846414F4,A10478742,66.5,Thomas Kuo,thkuo@ucsd.edu
+25,#8E87F0F9,A99022155,91.5,Bocun Liu,bol002@ucsd.edu
+26,#9AAE4773,A12077090,92.5,Christina Yaw-Ying Mak,cymak@ucsd.edu
+27,"['#96F9234C', '#974E3BE2']",A91411608,77,Jong Hwi Park,jhp077@ucsd.edu
+28,#9161A757,A11511403,91.5,Hans Yuan,h3yuan@ucsd.edu
+29,#955964A8,A11215837,68,Cyrus Kala Howie Smith,cksmith@ucsd.edu
+30,#9A50F832,A12333075,87.5,Christopher Evan Ozawa,cozawa@ucsd.edu
+31,#8E6C6A88,A12164074,94.5,Deepak Anand Narasimhan,d1narasi@ucsd.edu
+32,#8A51D70C,A99053739,75.5,Liyuan Zhang,liz049@ucsd.edu
+33,#8E6CC321,A99044844,102,Kanyanat Tongprasearth,ktongpra@ucsd.edu
+34,#96AA0D31,A12070057,97.5,Victor Van He,vvhe@ucsd.edu
+35,#9A2A9626,A11988867,85.5,Aditya Preeti Srinivasan,apsriniv@ucsd.edu
+36,#91398028,A12384426,100.5,David Joshua Moll,dmoll@ucsd.edu
+37,#8E81F7F8,A11340292,75.5,Amber Hsin Rei Tang,ahtang@ucsd.edu
+38,"['#982DA510', '#9AC0267C']",A12017122,88,Eric L Chen,elchen@ucsd.edu
+39,#8D8F3133,A11318049,90.5,Christopher Charles Gonzales,ccgonzal@ucsd.edu
+40,#9986021D,A91097460,39.5,Aldo Marcel Mojica,amojica@ucsd.edu
+41,#8A2C45E3,A11700687,94.5,Vinesh Nathan,vnathan@ucsd.edu
+42,#9A316AC1,A12244232,72.5,Brian Thinh-Minh Nguyen,btn029@ucsd.edu
+43,#8DB05C61,A10821659,56,Grant Meriwether Nelson,gnelson@ucsd.edu
+44,#8E6DD83B,A99000082,97.5,Xingda Jiang,xij011@ucsd.edu
+45,#974EB56C,A11645529,69,Ian John Fraijo,ijfraijo@ucsd.edu
+46,#9ACA5202,A12086281,106,Don Le Vo,d1vo@ucsd.edu
+47,#8E127CE0,A11662171,62,Zhihui Shen,zhs013@ucsd.edu
+48,#85E46302,A10793663,84,Normand Luis Overney,noverney@ucsd.edu
+49,#907E6A84,A99128618,88,Yuhan Chen,yuc143@ucsd.edu
+50,#8E00119F,A10715126,90.5,Randy Minh Tran,rmt002@ucsd.edu
+51,"['#909B6F64', '#8E7ED323']",A11257870,86.5,Thomas An,tan@ucsd.edu
+52,#99C6500F,A12333746,79.5,Richelle Gesmundo Vital,rgvital@ucsd.edu
+53,#885B30E3,A12210298,74,Marian Grace Crofts,mcrofts@ucsd.edu
+54,#913201A2,A12068003,71,Matthew Michael Sparrow,msparrow@ucsd.edu
+55,#98327CD6,A12144782,100,Yunqi Wu,yuw234@ucsd.edu
+56,#97C45300,A11911408,83,Satwik Bebortha,sbeborth@ucsd.edu
+57,#8AF17902,A11743170,76.5,Minh-Tuan Duong,m9duong@ucsd.edu
+58,#982E5EE8,A11951917,86,Brendan Sean Bell,bsbell@ucsd.edu
+59,#9AB60F23,A12447590,93.5,Robert Anthony Suffridge,rsuffrid@ucsd.edu
+60,#9A81263D,A91049358,71,You Zhang,yoz012@ucsd.edu
+61,#9A923E36,A91145222,100,Simon Lee Huang,slh012@ucsd.edu
+62,#974B19C5,A11450244,101,Siraj Ghouse,sghouse@ucsd.edu
+63,#85A06A4F,A10177369,83,An-Vy Thi Hoang,ath008@ucsd.edu
+64,#9AC8FEAC,A12211889,91,Andy Lin,anl177@ucsd.edu
+65,#82F47F09,A11444731,82.5,Andres Gomez,ang055@ucsd.edu
+66,#838A0F06,A09980657,75,Aaron Min,aamin@ucsd.edu
+67,#8EA72E07,A99037323,75.5,Xu Cheng,x5cheng@ucsd.edu
+68,#95FAC7A8,A12465903,71.5,Joseph Anthony Michael Villa,j2villa@ucsd.edu
+69,#8F469D54,A10673263,79.5,Nathan Hui,nthui@ucsd.edu
+70,#8E35F348,A99019145,53.5,Mingyang Zheng,m6zheng@ucsd.edu
+71,#8289979C,A12450691,80.5,Yasaman Mandi,yamandi@ucsd.edu
+72,#931234B5,A11656312,90,Taylor Breann Cavazos,tcavazos@ucsd.edu
+73,#9AA6D0EC,A11953426,86,Dongjun Kim,djk006@ucsd.edu
+74,#8E18E771,A11409180,88.5,Andrew Laurence Hua,a7hua@ucsd.edu
+75,#83A65D78,A10690980,84.5,Jeremy Ronald Halligan,jhalliga@ucsd.edu
+76,#8E60BF51,A11713681,77,Austin Von Gelb,avgelb@ucsd.edu
+77,#8AB77548,A10858223,77,Stephanie Giselle Villalobos,sgvillal@ucsd.edu
+78,#9AB05E74,A12023194,96,Gilberto Acevedo,giaceved@ucsd.edu
+79,#8E7A3FCB,A11225693,92.5,Kyle Alexander Lewis,k5lewis@ucsd.edu
+80,#9A2916A5,A10817699,76,Kevin Hsueh,kehsueh@ucsd.edu
+81,#8F598D5B,A11610263,87.5,Aishwarya Sandeep Gandhi,asgandhi@ucsd.edu
+82,#9A9C5355,A12066681,98.5,Evan Martin Doyle,edoyle@ucsd.edu
+83,#9A42C119,A12211384,86,Jeffrey Yen,jyen@ucsd.edu
+84,#8E7B6297,A11430272,100.5,Linda Ann Wogulis,lwogulis@ucsd.edu
+85,#966B926F,A12336636,99,Bryce Pauken,bjpauken@ucsd.edu
+86,#9AD7ABE6,A12444496,79,Henry Herbert Gaudet,hgaudet@ucsd.edu
+87,#9A9BBDBC,A12489635,89,Ting Gu,t8gu@ucsd.edu
+88,#8A5805D7,A99120097,95,Qiushi Zheng,qiz029@ucsd.edu
+89,#8FC382CE,A99054074,98,Hanchao Liu,hal105@ucsd.edu
+90,#9A06D34F,A09593727,88,Dongwoo Kim,dok040@ucsd.edu
+91,#9A8CC4D2,A12334212,103.5,Patrick H Hayes,phhayes@ucsd.edu
+92,#84E62042,A12316936,94,Vanna H Luu,vhluu@ucsd.edu
+93,#9A9CE4E2,A91105915,62,Rohit Vallumchetla,rvallumc@ucsd.edu
+94,#8E71FD02,A11589080,81.5,Stephanie Alcala Arteaga,saarteag@ucsd.edu
+95,#8EA5654E,A99092554,81.5,Seonghyun Hong,sehong@ucsd.edu
+96,#820D1C93,A98100000,82.5,Jiayi Tao,j4tao@ucsd.edu
+97,#9A92B0B8,A12319704,79,Kevin Wong,kew060@ucsd.edu
+98,#885A3EEC,A12045952,91,Mustafa Sinan Gobulukoglu,mgobuluk@ucsd.edu
+99,#863D18A3,A10738360,77,Jared William Richardson,j4richar@ucsd.edu
+100,#90871403,A10565474,24.5,Eduardo Ariel Campain,ecampain@ucsd.edu
+101,#9A6C9365,A12174404,96.5,Jared Seth Pham,jspham@ucsd.edu
+102,#9A70A14B,A12186153,86.5,James Fu,jaf022@ucsd.edu
+103,#97230BBF,A12251498,104.5,Zhuorui Zhang,zhz159@ucsd.edu
+104,#8B7052A9,A99086018,80.5,Zhouhang Shao,z2shao@ucsd.edu
+105,#8A5E21F5,A11243078,93,Saif Mahmud Rahman,smrahman@ucsd.edu
+106,#8E6CB654,A11317262,93.5,Yu Wu,yuw178@ucsd.edu
+107,#8F80010E,A99007889,72,Imho Jang,imjang@ucsd.edu
+108,#9A79A043,A12208009,75.5,Christian Michael Cordell,cmcordel@ucsd.edu
+109,#996B23D1,A91112629,88.5,Kelvin Steven Sarabia,kssarabi@ucsd.edu
+110,"['#82E60165', '#857C926B']",A11662369,97,Erica Sugimoto,esugimot@ucsd.edu
+111,#983A74D6,A91085795,107,Zhiwei Jia,zjia@ucsd.edu
+112,#93129C1D,A11731118,76.5,Hadar Abukrat,habukrat@ucsd.edu
+113,#8A23C960,A11315637,65.5,Irene Chen,ipchen@ucsd.edu
+114,#982D5FEA,A11608741,95,Cameron Scott Panlasigui,cpanlasi@ucsd.edu
+115,#8637AD1C,A10653629,95.5,Robert Phamle,rphamle@ucsd.edu
+116,#847EA258,A98067961,66,Yumei Jin,yuj019@ucsd.edu
+117,#959AC6C9,A99056989,89.5,Rohan Paul,ropaul@ucsd.edu
+118,#9A8BDCCD,A12371293,97,Lindsey Danielle Reynolds,lgrafft@ucsd.edu
+119,#9D56905B,A11843152,84.5,Calvin Nhat Nguyen,cnn004@ucsd.edu
+120,#8E1D24B7,A11625894,108,Thomas Qian,tqian@ucsd.edu
+121,#9A705FB5,A12363748,100.5,William Tianhao Chiu,wtchiu@ucsd.edu
+122,#8E9BC6D3,A11463602,89,Amitoj Setia,asetia@ucsd.edu
+123,#9A844759,A11937383,68.5,Paul Cho,pacho@ucsd.edu
+124,#842505A4,A10621971,75.5,Joanne Yeh,joy030@ucsd.edu
+125,#9AA2B28A,A12349614,104.5,Jason Phill Park,jpp003@ucsd.edu
+126,#9AAD0235,A12318209,103.5,Johnson Pang,jopang@ucsd.edu
+127,#8FA34F63,A11143486,91,Mikayla Joy Webster,m1webste@ucsd.edu
+128,#982055ED,A12489537,63,Jesse Quy,jquy@ucsd.edu
+129,#97C83D62,A12479384,75,Zahir Malik Yahya,zyahya@ucsd.edu
+130,#8E83373A,A11506363,61,Cynthia Ching Hsin Huang,cch003@ucsd.edu
+131,#8EB595AE,A11863454,88,Neil Lusen Tu,nltu@ucsd.edu
+132,#8E79F403,A11299307,98,Michael Francis Carroll,mcarroll@ucsd.edu
+133,#83C74703,A11743217,38,Brittany Rima Butler,b1butler@ucsd.edu
+134,#916D33CF,A12418009,48,Justin Chen,juc096@ucsd.edu
+135,#84D70B58,A10773459,94.5,Naveen Dharshana Ketagoda,nketagod@ucsd.edu
+136,#8EA2173B,A11513296,76,John Seong-Pil Jun,j5jun@ucsd.edu
+137,#85C25D1A,A10776267,91,Diego Martinez,dim007@ucsd.edu
+138,#88333C87,A12175183,81,Jenny Wong,jew007@ucsd.edu
+139,#9A79FB18,A11433522,89.5,Ashley Zhao,a9zhao@ucsd.edu
+140,#959DAEA6,A09635628,76.5,Mahaela Kathleen Johnson,mkj002@ucsd.edu
+141,#9A2163D8,A12009049,98.5,Clarence Chuong Anh Nguyen,ccn001@ucsd.edu
+142,#8E1662FA,A99077299,90.5,Tianqi Hu,t8hu@ucsd.edu
+143,#9322E958,A11424354,56,Jace Thalangsy-Ye Chan,jyc014@ucsd.edu
+144,#8E881513,A99003696,78,Hongda Xiao,hoxiao@ucsd.edu
+145,#8E7B55A0,A11221815,59,Victor Manuel Cardenas,vmcarden@ucsd.edu
+146,#9172F81B,A50055399,95,Ning Ma,nima@ucsd.edu
+147,#9AD68BC7,A11900976,90.5,Samuel Jiaming Liu,sjl041@ucsd.edu
+148,#86138411,A10639579,93.5,Haebin Liew,haliew@ucsd.edu
+149,#8A27E449,A99076487,86.5,Xi Yu,xiy023@ucsd.edu
+150,#82E593F4,A10181274,77,Jianyi Li,jil113@ucsd.edu
+151,#9A947678,A12491480,78,Shaina Ainhi Tran,sat005@ucsd.edu
+152,#966C1EE4,A11908353,97,Melissa My Ly,mmly@ucsd.edu
+153,#8A30219B,A11330308,96.5,Brian Truong Nguyen,btn023@ucsd.edu
+154,#84EEF49E,A91108555,100,Xuanpei Ouyang,xuouyang@ucsd.edu
+155,#9A59D714,A91008472,82,George Xiao Zhang,gxzhang@ucsd.edu
+156,#9B697587,A12327608,75.5,Victor Goswami,vgoswami@ucsd.edu
+157,#96BC012B,A12010610,87,Jonathan Lau,jolau@ucsd.edu
+158,#8A58BF6D,A99076232,99.5,Yicheng Yin,yiy058@ucsd.edu
+159,#912471C4,A99056668,52,Honglin Chen,hoc027@ucsd.edu
+160,#8E6F2ECF,A99088201,100,Shuming Cao,s5cao@ucsd.edu
+161,#9A326BC3,A91046735,98.5,Lingfei Lu,l6lu@ucsd.edu
+162,#9720F245,A12199149,90,Nicholas Gomez Phan,ngphan@ucsd.edu
+163,#9138F45D,A12468923,73.5,Andy Zhi Man Kong,azkong@ucsd.edu
+164,#8A550BD4,A99110780,87,Zhihua Gu,z4gu@ucsd.edu
+165,#9A7C5ABC,A12112599,81.5,Andy Thai,ant047@ucsd.edu
+166,#9AC4B2EC,A11969225,80.5,Ho Tsun Matthew Ho,h5ho@ucsd.edu
+167,#97F67D1C,A11650175,92.5,Brandon Whang,bwhang@ucsd.edu
+168,#9A353A95,A10628044,98,Yale Anthony Santos,yasantos@ucsd.edu
+169,#8E0DE96A,A11677584,106.5,Devin Hickey,dchickey@ucsd.edu
+170,#8DCD1A5A,A10917852,68,Beck Graham Abney,babney@ucsd.edu
+171,#8EC74B02,A11450728,64.5,Jian Bin Liang,jbliang@ucsd.edu
+172,#982B7FCC,A12211465,96.5,Ryan Benedict Dominguez,rbdoming@ucsd.edu
+173,#8E1ACB5F,A11394812,76,Arisson Rentoria Tampoc,atampoc@ucsd.edu
+174,#958B9F81,A11362206,60.5,Jose Leonardo Moreno,j2moreno@ucsd.edu
+175,#9A54529C,A12116868,92.5,Bynhan Pham,bypham@ucsd.edu

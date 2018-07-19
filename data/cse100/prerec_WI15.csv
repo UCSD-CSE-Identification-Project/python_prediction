@@ -1,0 +1,192 @@
+anid,cse5a,cse12,cse21,cse30,cse15l,math154,math184a,mae9,ece15
+0,#N/A,C  ,C+ ,C- ,C  ,#N/A,#N/A,#N/A,#N/A
+1,#N/A,A+ ,A+ ,A  ,A  ,#N/A,#N/A,#N/A,#N/A
+2,#N/A,C  ,B+ ,#N/A,#N/A,#N/A,#N/A,#N/A,W  
+3,#N/A,A  ,A+ ,#N/A,#N/A,#N/A,#N/A,#N/A,A  
+4,#N/A,C  ,A  ,F  ,B+ ,#N/A,#N/A,#N/A,C  
+5,#N/A,A- ,B+ ,A- ,A+ ,#N/A,#N/A,#N/A,#N/A
+6,#N/A,#N/A,A+ ,B+ ,B  ,#N/A,#N/A,#N/A,#N/A
+7,A  ,B+ ,A  ,B- ,A  ,#N/A,#N/A,#N/A,#N/A
+8,#N/A,#N/A,A  ,#N/A,A- ,#N/A,#N/A,#N/A,#N/A
+9,#N/A,B+ ,A- ,B  ,A- ,#N/A,#N/A,#N/A,#N/A
+10,#N/A,#N/A,A- ,#N/A,B+ ,#N/A,#N/A,#N/A,#N/A
+11,#N/A,B+ ,C- ,C- ,C+ ,#N/A,#N/A,#N/A,#N/A
+12,#N/A,B  ,A  ,A- ,A  ,#N/A,#N/A,#N/A,#N/A
+13,A- ,A- ,B+ ,B- ,A- ,#N/A,#N/A,#N/A,#N/A
+14,#N/A,B+ ,A  ,B  ,A  ,#N/A,#N/A,#N/A,#N/A
+15,#N/A,C  ,P  ,B+ ,B  ,#N/A,#N/A,#N/A,#N/A
+16,#N/A,#N/A,A+ ,A  ,A  ,#N/A,#N/A,#N/A,#N/A
+17,#N/A,B+ ,A  ,C+ ,A  ,#N/A,#N/A,#N/A,#N/A
+18,#N/A,B  ,A  ,C  ,B  ,#N/A,#N/A,#N/A,#N/A
+19,C  ,C  ,B- ,C+ ,B  ,#N/A,#N/A,#N/A,#N/A
+20,#N/A,C- ,B+ ,B  ,B  ,#N/A,#N/A,#N/A,#N/A
+21,#N/A,A  ,A  ,B  ,B+ ,B  ,A  ,#N/A,#N/A
+22,#N/A,B- ,C  ,B  ,B- ,#N/A,#N/A,#N/A,#N/A
+23,#N/A,B+ ,#N/A,#N/A,#N/A,#N/A,#N/A,A  ,B+ 
+24,C- ,C  ,C  ,#N/A,B  ,#N/A,#N/A,#N/A,#N/A
+25,#N/A,B  ,B+ ,D  ,B  ,#N/A,#N/A,#N/A,#N/A
+26,#N/A,A  ,A+ ,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A
+27,#N/A,B+ ,A  ,A  ,A- ,#N/A,#N/A,#N/A,#N/A
+28,#N/A,B+ ,A  ,B- ,B  ,#N/A,#N/A,#N/A,#N/A
+29,#N/A,C  ,A  ,B  ,B  ,#N/A,#N/A,#N/A,#N/A
+30,#N/A,C+ ,B+ ,C+ ,C+ ,#N/A,#N/A,#N/A,#N/A
+31,#N/A,#N/A,A+ ,A  ,A  ,#N/A,#N/A,#N/A,#N/A
+32,#N/A,A- ,A  ,P  ,B  ,#N/A,#N/A,#N/A,#N/A
+33,#N/A,A  ,A+ ,A+ ,A- ,#N/A,#N/A,#N/A,#N/A
+34,#N/A,B+ ,A  ,B  ,B+ ,#N/A,#N/A,#N/A,#N/A
+35,#N/A,A- ,A  ,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A
+36,#N/A,C+ ,A  ,B  ,B+ ,#N/A,#N/A,#N/A,W  
+37,#N/A,A  ,A  ,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A
+38,#N/A,C  ,A  ,C+ ,C+ ,#N/A,#N/A,#N/A,#N/A
+39,#N/A,A+ ,A+ ,A+ ,A+ ,#N/A,#N/A,#N/A,#N/A
+40,#N/A,A  ,A- ,A  ,A- ,#N/A,#N/A,#N/A,#N/A
+41,#N/A,A  ,A  ,A- ,A  ,#N/A,#N/A,#N/A,A- 
+42,#N/A,#N/A,A  ,#N/A,A  ,#N/A,#N/A,#N/A,#N/A
+43,#N/A,B  ,A  ,A- ,A- ,#N/A,#N/A,#N/A,#N/A
+44,#N/A,#N/A,A  ,#N/A,C+ ,#N/A,#N/A,#N/A,#N/A
+45,C  ,B- ,C+ ,C- ,B  ,#N/A,#N/A,#N/A,#N/A
+46,A- ,C- ,A  ,A- ,B  ,#N/A,#N/A,#N/A,#N/A
+47,#N/A,W  ,B- ,#N/A,B  ,#N/A,#N/A,#N/A,#N/A
+48,#N/A,B+ ,A+ ,B  ,A- ,#N/A,#N/A,#N/A,#N/A
+49,#N/A,C  ,C- ,A- ,B  ,#N/A,#N/A,#N/A,#N/A
+50,#N/A,A  ,A+ ,A  ,A- ,#N/A,#N/A,#N/A,#N/A
+51,#N/A,B  ,B+ ,A- ,A- ,#N/A,#N/A,#N/A,#N/A
+52,#N/A,#N/A,A+ ,A  ,A  ,#N/A,#N/A,#N/A,#N/A
+53,#N/A,B+ ,A  ,A  ,A  ,#N/A,#N/A,#N/A,#N/A
+54,#N/A,A+ ,A+ ,A+ ,A+ ,#N/A,#N/A,#N/A,#N/A
+55,#N/A,#N/A,B+ ,#N/A,B+ ,#N/A,#N/A,#N/A,#N/A
+56,#N/A,#N/A,C- ,C  ,C  ,#N/A,#N/A,#N/A,#N/A
+57,#N/A,A- ,A  ,A  ,A- ,#N/A,#N/A,#N/A,#N/A
+58,#N/A,#N/A,A+ ,#N/A,A  ,#N/A,#N/A,#N/A,#N/A
+59,#N/A,C  ,A+ ,#N/A,B  ,#N/A,#N/A,#N/A,A- 
+60,#N/A,B- ,A- ,#N/A,B  ,#N/A,#N/A,#N/A,A- 
+61,#N/A,B- ,B  ,B- ,B+ ,#N/A,#N/A,#N/A,#N/A
+62,#N/A,B  ,A+ ,A- ,A+ ,#N/A,#N/A,#N/A,#N/A
+63,#N/A,B  ,A  ,B  ,B  ,#N/A,#N/A,#N/A,#N/A
+64,#N/A,#N/A,B  ,#N/A,B  ,#N/A,#N/A,#N/A,#N/A
+65,#N/A,C+ ,B- ,C+ ,C  ,#N/A,#N/A,#N/A,#N/A
+66,#N/A,A+ ,A  ,A+ ,A  ,#N/A,#N/A,#N/A,#N/A
+67,#N/A,A  ,A  ,A+ ,A+ ,#N/A,#N/A,#N/A,#N/A
+68,#N/A,#N/A,B+ ,#N/A,B  ,#N/A,#N/A,#N/A,#N/A
+69,#N/A,B  ,A- ,B  ,B+ ,#N/A,#N/A,#N/A,#N/A
+70,#N/A,A  ,A  ,A  ,A  ,#N/A,#N/A,#N/A,#N/A
+71,#N/A,B  ,B+ ,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A
+72,#N/A,#N/A,A- ,#N/A,A- ,#N/A,#N/A,#N/A,#N/A
+73,#N/A,A  ,A+ ,A  ,A- ,#N/A,#N/A,#N/A,#N/A
+74,#N/A,B  ,B  ,A  ,A+ ,#N/A,#N/A,#N/A,#N/A
+75,#N/A,C  ,B  ,#N/A,C  ,#N/A,#N/A,#N/A,C  
+76,#N/A,C+ ,B  ,#N/A,A  ,#N/A,#N/A,#N/A,#N/A
+77,#N/A,A- ,B+ ,B+ ,A  ,#N/A,#N/A,#N/A,#N/A
+78,#N/A,C- ,C+ ,B- ,C+ ,#N/A,#N/A,#N/A,#N/A
+79,#N/A,A  ,A  ,#N/A,A  ,#N/A,#N/A,#N/A,#N/A
+80,#N/A,C  ,B- ,C+ ,C  ,#N/A,#N/A,#N/A,#N/A
+81,#N/A,B  ,A- ,#N/A,B  ,#N/A,#N/A,#N/A,B+ 
+82,#N/A,A  ,A+ ,A  ,A- ,#N/A,#N/A,#N/A,#N/A
+83,#N/A,A  ,A  ,#N/A,A  ,#N/A,#N/A,#N/A,#N/A
+84,#N/A,C  ,A  ,A  ,B  ,#N/A,#N/A,#N/A,B  
+85,#N/A,A- ,B+ ,A  ,A  ,#N/A,#N/A,#N/A,#N/A
+86,#N/A,C  ,A- ,C  ,C+ ,#N/A,#N/A,#N/A,#N/A
+87,#N/A,C  ,B+ ,B- ,B  ,#N/A,#N/A,#N/A,#N/A
+88,#N/A,C+ ,B+ ,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A
+89,#N/A,A  ,A  ,B  ,A- ,#N/A,#N/A,#N/A,#N/A
+90,#N/A,#N/A,A  ,#N/A,A  ,#N/A,#N/A,#N/A,#N/A
+91,#N/A,A+ ,A  ,A  ,A+ ,#N/A,#N/A,#N/A,#N/A
+92,#N/A,B- ,A  ,B- ,B- ,#N/A,#N/A,#N/A,#N/A
+93,#N/A,C+ ,B+ ,A  ,B+ ,#N/A,#N/A,#N/A,#N/A
+94,#N/A,B- ,A  ,B- ,B  ,#N/A,#N/A,#N/A,#N/A
+95,#N/A,B+ ,A  ,A  ,#N/A,A+ ,B  ,#N/A,#N/A
+96,#N/A,A  ,A  ,A  ,A  ,#N/A,#N/A,#N/A,#N/A
+97,#N/A,#N/A,B+ ,B  ,A  ,#N/A,#N/A,#N/A,#N/A
+98,#N/A,A  ,A  ,C- ,A  ,#N/A,#N/A,#N/A,#N/A
+99,#N/A,B  ,B+ ,A- ,B  ,#N/A,#N/A,#N/A,#N/A
+100,#N/A,B- ,A- ,A- ,A  ,#N/A,#N/A,#N/A,#N/A
+101,#N/A,A  ,A  ,A  ,A  ,#N/A,#N/A,#N/A,#N/A
+102,#N/A,#N/A,B+ ,#N/A,A  ,#N/A,#N/A,#N/A,#N/A
+103,#N/A,A  ,A  ,#N/A,A  ,#N/A,#N/A,#N/A,B+ 
+104,#N/A,B  ,A  ,#N/A,#N/A,#N/A,#N/A,#N/A,C  
+105,#N/A,B+ ,A  ,C+ ,B  ,#N/A,#N/A,#N/A,#N/A
+106,#N/A,C  ,A- ,#N/A,C+ ,#N/A,#N/A,#N/A,#N/A
+107,#N/A,A  ,A  ,A- ,A  ,#N/A,#N/A,#N/A,#N/A
+108,#N/A,B+ ,A+ ,A  ,A- ,#N/A,#N/A,#N/A,#N/A
+109,#N/A,B+ ,A  ,#N/A,B+ ,#N/A,#N/A,#N/A,#N/A
+110,B  ,A  ,B  ,A- ,B  ,#N/A,#N/A,#N/A,#N/A
+111,#N/A,B+ ,B  ,#N/A,#N/A,B  ,#N/A,#N/A,C- 
+112,#N/A,B- ,A  ,A  ,#N/A,#N/A,#N/A,#N/A,#N/A
+113,#N/A,B+ ,A  ,C  ,A- ,#N/A,#N/A,#N/A,#N/A
+114,#N/A,C+ ,A- ,A- ,B  ,#N/A,#N/A,#N/A,C  
+115,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A
+116,#N/A,B- ,B  ,A- ,C+ ,#N/A,#N/A,#N/A,#N/A
+117,#N/A,A  ,A- ,A  ,A  ,#N/A,#N/A,#N/A,#N/A
+118,#N/A,B  ,B+ ,B  ,C  ,#N/A,#N/A,#N/A,B- 
+119,#N/A,B  ,B+ ,B- ,A  ,#N/A,#N/A,A- ,#N/A
+120,#N/A,B  ,A  ,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A
+121,#N/A,C+ ,A  ,B- ,#N/A,#N/A,#N/A,#N/A,#N/A
+122,#N/A,B+ ,A  ,C  ,C+ ,#N/A,#N/A,#N/A,#N/A
+123,#N/A,A  ,A  ,A  ,B+ ,#N/A,#N/A,#N/A,#N/A
+124,#N/A,C+ ,B- ,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A
+125,#N/A,A  ,A  ,B+ ,A- ,#N/A,#N/A,#N/A,#N/A
+126,#N/A,#N/A,C  ,#N/A,A  ,#N/A,#N/A,#N/A,#N/A
+127,#N/A,B+ ,A+ ,A  ,A- ,#N/A,#N/A,#N/A,#N/A
+128,#N/A,A  ,A+ ,A  ,A  ,#N/A,#N/A,#N/A,#N/A
+129,#N/A,B+ ,A+ ,C  ,C  ,D  ,W  ,#N/A,#N/A
+130,#N/A,B  ,A  ,B+ ,A- ,#N/A,#N/A,#N/A,#N/A
+131,#N/A,A  ,B+ ,C+ ,A  ,A  ,B- ,#N/A,A- 
+132,#N/A,A- ,B+ ,A- ,A  ,#N/A,#N/A,#N/A,A+ 
+133,#N/A,A- ,A  ,A  ,B  ,#N/A,#N/A,#N/A,#N/A
+134,#N/A,B- ,A  ,C- ,B  ,#N/A,#N/A,#N/A,#N/A
+135,B  ,B  ,C+ ,F  ,B+ ,#N/A,#N/A,#N/A,#N/A
+136,#N/A,B- ,#N/A,B  ,A  ,F  ,B- ,#N/A,#N/A
+137,#N/A,B  ,A- ,B+ ,B+ ,#N/A,#N/A,#N/A,C+ 
+138,#N/A,C- ,C  ,C- ,C+ ,#N/A,#N/A,#N/A,#N/A
+139,#N/A,D  ,D  ,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A
+140,#N/A,C- ,B+ ,B+ ,C+ ,#N/A,#N/A,#N/A,#N/A
+141,#N/A,B  ,B+ ,A  ,A- ,#N/A,#N/A,#N/A,#N/A
+142,#N/A,B- ,A+ ,#N/A,B- ,#N/A,#N/A,A  ,A- 
+143,#N/A,#N/A,D  ,B  ,A- ,#N/A,#N/A,#N/A,#N/A
+144,#N/A,#N/A,B  ,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A
+145,#N/A,P  ,A+ ,#N/A,A  ,#N/A,#N/A,#N/A,B  
+146,#N/A,B  ,A  ,A  ,B  ,#N/A,#N/A,#N/A,#N/A
+147,#N/A,A  ,A+ ,#N/A,#N/A,#N/A,#N/A,#N/A,C  
+148,#N/A,B- ,A- ,B  ,C  ,#N/A,#N/A,#N/A,#N/A
+149,B  ,B+ ,A  ,B- ,A  ,#N/A,#N/A,#N/A,#N/A
+150,#N/A,A  ,A+ ,A  ,A  ,#N/A,#N/A,#N/A,#N/A
+151,#N/A,B  ,C  ,B- ,B+ ,#N/A,#N/A,#N/A,#N/A
+152,#N/A,A+ ,A+ ,A+ ,A  ,#N/A,#N/A,#N/A,#N/A
+153,#N/A,B- ,B+ ,B  ,B+ ,#N/A,#N/A,#N/A,#N/A
+154,#N/A,W  ,A  ,A  ,B+ ,#N/A,#N/A,#N/A,#N/A
+155,#N/A,B+ ,C+ ,C  ,B  ,#N/A,#N/A,#N/A,#N/A
+156,#N/A,#N/A,#N/A,C  ,#N/A,#N/A,#N/A,#N/A,#N/A
+157,#N/A,A- ,A  ,A  ,A- ,#N/A,#N/A,#N/A,#N/A
+158,#N/A,B- ,A- ,C- ,B- ,#N/A,#N/A,#N/A,#N/A
+159,#N/A,C+ ,B- ,B+ ,B  ,#N/A,#N/A,#N/A,#N/A
+160,#N/A,B+ ,B  ,A  ,B  ,#N/A,#N/A,#N/A,#N/A
+161,#N/A,A+ ,A  ,A  ,A  ,#N/A,#N/A,#N/A,A- 
+162,#N/A,C  ,B  ,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A
+163,#N/A,A  ,A  ,A  ,B  ,#N/A,#N/A,#N/A,#N/A
+164,#N/A,C- ,A+ ,A- ,C  ,#N/A,#N/A,#N/A,#N/A
+165,#N/A,D  ,A  ,A- ,C  ,#N/A,#N/A,#N/A,#N/A
+166,#N/A,D  ,B  ,B- ,B  ,#N/A,#N/A,#N/A,#N/A
+167,#N/A,A- ,A- ,B- ,C+ ,#N/A,#N/A,#N/A,#N/A
+168,#N/A,B  ,C  ,C+ ,B  ,#N/A,#N/A,#N/A,#N/A
+169,#N/A,B- ,B  ,B  ,B  ,#N/A,#N/A,#N/A,#N/A
+170,#N/A,B  ,A  ,A- ,A- ,#N/A,#N/A,#N/A,#N/A
+171,#N/A,A- ,A  ,A  ,A- ,#N/A,#N/A,#N/A,#N/A
+172,#N/A,C- ,B  ,C- ,B  ,#N/A,#N/A,#N/A,#N/A
+173,#N/A,A  ,A  ,A- ,A  ,#N/A,#N/A,#N/A,#N/A
+174,#N/A,B  ,B  ,B- ,B- ,#N/A,#N/A,#N/A,#N/A
+175,#N/A,B  ,B- ,B+ ,B+ ,#N/A,#N/A,#N/A,#N/A
+176,#N/A,B- ,A+ ,A+ ,A+ ,#N/A,#N/A,#N/A,#N/A
+177,#N/A,A  ,B- ,C  ,B+ ,#N/A,#N/A,#N/A,#N/A
+178,#N/A,A- ,B- ,#N/A,B+ ,#N/A,#N/A,#N/A,#N/A
+179,#N/A,B  ,B- ,C  ,B+ ,#N/A,#N/A,#N/A,#N/A
+180,#N/A,W  ,A- ,#N/A,C  ,#N/A,#N/A,#N/A,P  
+181,#N/A,B  ,C  ,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A
+182,#N/A,A  ,A+ ,#N/A,A  ,#N/A,#N/A,#N/A,#N/A
+183,#N/A,#N/A,A  ,#N/A,A+ ,#N/A,#N/A,#N/A,#N/A
+184,#N/A,B+ ,B+ ,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A
+185,#N/A,A+ ,B+ ,#N/A,A  ,#N/A,#N/A,#N/A,#N/A
+186,#N/A,#N/A,C+ ,#N/A,P  ,#N/A,C  ,#N/A,#N/A
+187,#N/A,A- ,A  ,#N/A,A  ,#N/A,#N/A,#N/A,#N/A
+188,#N/A,A  ,A+ ,A  ,A- ,#N/A,#N/A,#N/A,A  
+189,#N/A,A  ,A+ ,A  ,A- ,#N/A,#N/A,#N/A,#N/A
+190,#N/A,A  ,A  ,A+ ,A  ,#N/A,#N/A,#N/A,#N/A

@@ -1,0 +1,10 @@
+.DS_Store
+*.ipynb
+.ipynb_checkpoints/
+scripts/**/*.pdf
+scripts/**/*.jpeg
+scripts/**/*.png
+results/
+scripts/trial/
+data/cse141/CSE_141_FA16_Fall_2016_grades.csv
+data/cse141/CSE_141_Fall_2015_grades.csv
