@@ -5,11 +5,14 @@ def score_to_binary(df):
 	# Change exam_total to 1/0 (depending on cutoff)
 	failing_percentage = 0.4
 
-	fail_score = df['exam_total'].quantile(failing_percentage, interpolation="nearest")
+	fail_score = df["exam_total"].quantile(failing_percentage, interpolation="nearest")
 
-	# Do we need the factor/similar feature in python?
+	# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	# Currently no factor feature in the python version, not the same as R's factor
 
-	return(df.assign(exam_total=[ (1 if (score<fail_score) else 0) for score in df['exam_total'] ]))
+	#print([ (1 if (score<fail_score) else 0) for score in df["exam_total"] ])
+	#print(pd.factorize([ (1 if (score<fail_score) else 0) for score in df["exam_total"] ]))
+	return(df.assign(exam_total=[ (1 if (score<fail_score) else 0) for score in df["exam_total"] ]))
 
 def load_final(course):
 	if (course == "cs1"):
@@ -19,7 +22,7 @@ def load_final(course):
 		raw_data_train1 = pd.read_csv("../data/cse8a/nametable_FA14a.csv", na_values=["<NA>"])
 		raw_data_train2 = pd.read_csv("../data/cse8a/nametable_FA14b.csv", na_values=["<NA>"])
 
-		'''Combine 2 nametables and reassign indices'''
+		# Combine 2 nametables and reassign indices
 		raw_data_train = pd.concat([raw_data_train1, raw_data_train2], ignore_index=True)
 
 		raw_data_test = pd.read_csv("../data/cse8a/nametable_FA15.csv", na_values=["<NA>"])
