@@ -1,6 +1,9 @@
 import argparse
+import pandas as pd
 import functions_prepdata_final as prepFinal
 import functions_prepdata_prereq as prepPrerec
+import functions_prepdata_midterm as prepMidterm
+import functions_prepdata_clicker as prepClicker
 
 # Parse command line arguments, run python3 script with -h for more information
 parser = argparse.ArgumentParser(description="Preprocess student data based on user input")
@@ -32,6 +35,50 @@ if ("p" in elements):
 	print("**** Prerequisite... ****")
 	mergeorkeep = "merge"
 	prereq = prepPrerec.load_prereq(course, mergeorkeep)
+
+	if prereq[0] is not None:
+		scaled_data_train = scaled_data_train.merge(prereq[0], how="outer")
+		scaled_data_test = scaled_data_test.merge(prereq[1], how="outer")
+
+# Loading Midterm Data
+if ("m" in elements):
+	print("**** Midterm... so you are adding the other data you chose up to the midterm week ****")
+	# Default to only use the first midterm if there are 2 midterms
+	usefirstmiderm = 1
+
+	cutoffweek = prepMidterm.reset_cutoffweek(course)
+	midterm = prepMidterm.load_midterm(course, usefirstmiderm)
+
+	scaled_data_train = scaled_data_train.merge(midterm[0], how="outer")
+	scaled_data_test = scaled_data_test.merge(midterm[1], how="outer")
+
+# Loading Clicker Data
+if ("c" in elements):
+	print("**** Clicker... ****")
+	# Import paired data
+	paired_qs = prepClicker.pair_data(course)
+
+	# Load and filter clicker questions
+	# Output has student clicker responses and the student responses are sorted by anid
+	(raw_data_train, raw_data_test) = prepClicker.load_filter_questions(course, paired_qs)
+	print(raw_data_train)
+	print(raw_data_test)
+	# Drop lectures in testset after specified week
+	raw_data_test = prepClicker.DropLectures(raw_data_test, cutoffweek, course)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
