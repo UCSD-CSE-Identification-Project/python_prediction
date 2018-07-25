@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+from sklearn.preprocessing import scale
 
 #
 # Note: anid column will be a list of floats, because NaN is a float in Python
@@ -106,7 +108,6 @@ def load_filter_questions(course, pairinfo):
 	elif (course == "cse12"):
 		raw_data_train = load_data_with_anid("../data/cse12/data_SP14.csv", pairinfo, "SP14_ID")
 		raw_data_test = load_data_with_anid("../data/cse12/data_SP15-secB.csv", pairinfo, "SP15b_ID")
-		print(raw_data_train)
 	elif (course == "cse100"):
 		raw_data_train = load_data_with_anid("../data/cse100/data_FA13.csv", pairinfo, "FA13_ID")
 		raw_data_test = load_data_with_anid("../data/cse100/data_WI15.csv", pairinfo, "WI15_ID")
@@ -298,40 +299,255 @@ def DropLectures(data, dropWeek, course):
 	return newData
 
 def ProcessClickerQData(pair, data, whichcolumn):
-	final_data = data
+	new_name = []
+	keep = []
+	uname = list(pair[pair.columns[0]])
+
+	for qname in range(data.shape[1]):
+		orig_name = data.columns[qname]
+
+		# The question has a corresponding pair with the test set
+		if (orig_name in list(pair[pair.columns[whichcolumn]])):
+			ind = list(pair[pair.columns[whichcolumn]]).index(orig_name)
+
+			keep.append(orig_name)
+			new_name.append(uname[ind])
+
+	final_data = data[keep]
+	final_data.columns = new_name
 	return final_data
 
 def convert_to_universal_qid(pairinfo, train, test, course):
-	train_results = train
-	test_results = test
+	trainclickerdata = train.drop(columns=[train.columns[0]])
+	testclickerdata = test.drop(columns=[test.columns[0]])
 
-	return (train_results, test_results)
+	#
+	# Some of the return have difference sequence comparing to R, might because of DropLecture
+	#
+	if (course == "cs1"):
+		clickerqdata_train = ProcessClickerQData(pairinfo, trainclickerdata, 1)
+		clickerqdata_test = ProcessClickerQData(pairinfo, testclickerdata, 2)
+	elif (course == "cse8a"):
+		clickerqdata_train = trainclickerdata
+		clickerqdata_test = ProcessClickerQData(pairinfo, testclickerdata, 3)
+	elif (course == "cse12"):
+		clickerqdata_train = ProcessClickerQData(pairinfo, trainclickerdata, 1)
+		clickerqdata_test = ProcessClickerQData(pairinfo, testclickerdata, 2)
+	elif (course == "cse100"):
+		clickerqdata_train = ProcessClickerQData(pairinfo, trainclickerdata, 1)
+		clickerqdata_test = ProcessClickerQData(pairinfo, testclickerdata, 2)
+		#print(clickerqdata_test.columns)
+		#print(len(clickerqdata_test.columns))
+	elif (course == "cse141"):
+		####################
+		## usefa14:
+		## TRUE: train-fa14, test-fa15
+		## FALSE: train-fa15, test-fa16
+		####################
+		usefa14 = True
 
-def count_NAs(data):
-	return data
+		if (usefa14):
+			clickerqdata_train = trainclickerdata
+			clickerqdata_test = ProcessClickerQData(pairinfo, testclickerdata, 3)
+		else:
+			clickerqdata_train = ProcessClickerQData(pairinfo, trainclickerdata, 3)
+			clickerqdata_test = ProcessClickerQData(pairinfo, testclickerdata, 4)
+
+	tempDf = pd.DataFrame(data={"anid": train[train.columns[0]]})
+	train_result = pd.concat([tempDf, clickerqdata_train], axis=1)
+
+	tempDf = pd.DataFrame(data={"anid": test[test.columns[0]]})
+	test_result = pd.concat([tempDf, clickerqdata_test], axis=1)
+
+	return (train_result, test_result)
 
 def do_fill_NAs_to_6(data):
-	return data
+	return data.fillna(6)
 
 def convert_responses_to_correctness(data, pair):
+	for i in range(data.shape[1]):
+		qname = data.columns[i]
+		qrownum = list(pair["qid"]).index(qname)
+		cans = pair["cans"][qrownum]
+		resp = list(data[data.columns[i]])
+
+		#
+		# Why a vector in R?
+		#
+		if (cans >= 10):
+			cans = [int(d) for d in str(cans)]
+		else:
+			cans = [cans]
+
+		correctness = []
+		for r in range(len(resp)):
+			raw_resp = resp[r]
+
+			if (raw_resp in cans):
+				correctness.append(1)
+			elif (raw_resp == 6):
+				correctness.append(0)
+			else:
+				correctness.append(-1)
+
+		data = data.assign(**{data.columns[i]: correctness})
+
 	return data
 
 def change_columnnames(df):
+	new_names = []
+
+	for i in range(df.shape[1]):
+		new_names.append(df.columns[i] + "_c")
+
+	df.columns = new_names
 	return df
 
 def convert_responses_to_correctness_train_test(course, train, test, pair):
+	trainclickerdata = train.drop(columns=[train.columns[0]])
+	testclickerdata = test.drop(columns=[test.columns[0]])
+
+	if (course != "cse100"):
+		scaled_data_train_correctness = convert_responses_to_correctness(trainclickerdata, pair)
+		scaled_data_test_correctness = convert_responses_to_correctness(testclickerdata, pair)
+	# cse100 has two correctness columns for each term
+	else:
+		# Generate separate paired_qs for each term of cse100
+		pair_train = pair.drop(columns=["cans_WI15"])
+		pair_test = pair.drop(columns=["cans_FA13"])
+
+		pair_train = pair_train.rename(columns={pair_train.columns[pair_train.shape[1]-1]: "cans"})
+		pair_test = pair_test.rename(columns={pair_test.columns[pair_test.shape[1]-1]: "cans"})
+
+		# Generate correctness columns for cse100
+		scaled_data_train_correctness = convert_responses_to_correctness(trainclickerdata, pair_train)
+		scaled_data_test_correctness = convert_responses_to_correctness(testclickerdata, pair_test)
+
+	# Each clicker question will have QNAME_c columns to represent students' correctness
+	scaled_data_train_correctness = change_columnnames(scaled_data_train_correctness)
+	scaled_data_test_correctness = change_columnnames(scaled_data_test_correctness)
+
+	tempDf = pd.DataFrame(data={"anid": train[train.columns[0]]})
+	train_results = pd.concat([tempDf, scaled_data_train_correctness], axis=1)
+
+	tempDf = pd.DataFrame(data={"anid": test[test.columns[0]]})
+	test_results = pd.concat([tempDf, scaled_data_test_correctness], axis=1)
+
 	return (train_results, test_results)
 
+#
+# Haven't tested
+#
 def scale_correctness(train, test):
+	start = 1
+	if (train.columns[start] == "exam_total"):
+		start = 2
+
+	for i in range(start, train.shape[1]):
+		qname = train.columns[i]
+		total_correctness = list(train[train.columns[i]])
+
+		if (qname in list(test.columns)):
+			total_correctness = total_correctness + list(test[qname])
+		scaled_total_correctness = scale(total_correctness)
+		# Scaling the range to be 0-1 is deactivated for now
+		# scaled.total.correctness <- (scaled.total.correctness - min(scaled.total.correctness)) /
+		#							(max(scaled.total.correctness) - min(scaled.total.correctness))
+		if (qname in list(test.columns)):
+			scaled_train_correctness = scaled_total_correctness[:train.shape[0]]
+			scaled_test_correctness = scaled_total_correctness[train.shape[0]:]
+
+			train = train.assign(**{train.columns[i]: scaled_train_correctness})
+			test = test.assign(**{qname: scaled_test_correctness})
+		else:
+			train = train.assign(**{train.columns[i]: scaled_total_correctness})
+
 	return (train, test)
 
 def merge_correctness(train, test):
+	tempDf = pd.DataFrame(data={"anid": train[train.columns[0]]})
+	train = train.drop(columns=[train.columns[0]])
+	train_clicker = tempDf.assign(merged_quiz=train.apply(np.sum, axis=1))
+
+	tempDf = pd.DataFrame(data={"anid": test[test.columns[0]]})
+	test = test.drop(columns=[test.columns[0]])
+	test_clicker = tempDf.assign(merged_quiz=test.apply(np.sum, axis=1))
+
 	return (train_clicker, test_clicker)
 
+#
+# Haven't tested
+#
 def add_lecture_number(course, pair):
-	return
+	testsetcolumn = 0
+	lecture = []
 
+	if (course == "cs1"):
+		testsetcolumn = 3
+	elif (course == "cse8a"):
+		testsetcolumn = 4
+	elif (course == "cse12"):
+		testsetcolumn = 3
+	elif (course == "cse100"):
+		testsetcolumn = 3
+	elif (course == "cse141"):
+		# FA14-15
+		testsetcolumn <- 4
+		
+		# FA15-16
+		#testsetcolumn <- 5
+
+	if (course == "cse141"):
+		lecture = list(pair[pair.columns[testsetcolumn]].apply(getLectureNum141))
+	else:
+		lecture = list(pair[pair.columns[testsetcolumn]].apply(getLectureNum))
+
+	return pair.assign(lecture=lecture)
+
+#
+# Haven't tested
+#
 def merge_perweek_correctness(course, uptowhatweek, pair, train, test):
+	train_clicker = pd.DataFrame(index=range(train.shape[0]), columns=range(1, uptowhatweek+1))
+	test_clicker = pd.DataFrame(index=range(test.shape[0]), columns=range(1, uptowhatweek+1))
+
+	pair = add_lecture_number(course, pair)
+
+	lec = 0
+	prevw_lec = 1
+	new_names = []
+
+	for w in range(1, uptowhatweek+1):
+		new_names.append("w" + str(w) + "clicker")
+
+		lec = fromWhatLecture(course, w) - 1
+		print("week " + str(w) + ": from " + str(prevw_lec) + " ~ " + str(lec))
+		targets = [list(pair["lecture"]).index(lecture) for lecture in list(pair["lecture"]) if lecture <= lec and lecture >= prevw_lec]
+		print(targets)
+		questions = [pair["qid"][index] for index in targets]
+		qs_of_the_week = [str(q)+"_c" for q in questions]
+
+		train_of_the_week = train.filter(items=[name for name in train.columns if name in qs_of_the_week])
+		test_of_the_week = test.filter(items=[name for name in test.columns if name in qs_of_the_week])
+
+		if (len(targets) > 1):
+			train_clicker.assign(**{w: train_of_the_week.apply(np.sum, axis=1)})
+			test_clicker.assign(**{w: test_of_the_week.apply(np.sum, axis=1)})
+		else:
+			train_clicker.assign(**{w: train_of_the_week})
+			test_clicker.assign(**{w: test_of_the_week})
+
+		prevw_lec = lec + 1
+
+	train_clicker.columns = new_names
+	test_clicker.columns = new_names
+
+	tempDf = pd.DataFrame(data={train.columns[0]: train[train.columns[0]]})
+	train_clicker = pd.concat([tempDf, train_clicker], axis=1)
+
+	tempDf = pd.DataFrame(data={test.columns[0]: test[test.columns[0]]})
+	test_clicker = pd.concat([tempDf, test_clicker], axis=1)
+
 	return (train_clicker, test_clicker)
 
 def factorize_responses(df):

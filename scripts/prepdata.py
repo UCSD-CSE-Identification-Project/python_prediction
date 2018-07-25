@@ -61,10 +61,52 @@ if ("c" in elements):
 	# Load and filter clicker questions
 	# Output has student clicker responses and the student responses are sorted by anid
 	(raw_data_train, raw_data_test) = prepClicker.load_filter_questions(course, paired_qs)
-	print(raw_data_train)
-	print(raw_data_test)
+
 	# Drop lectures in testset after specified week
 	raw_data_test = prepClicker.DropLectures(raw_data_test, cutoffweek, course)
+
+	# Convert qnames to universal qids
+	(raw_data_train, raw_data_test) = prepClicker.convert_to_universal_qid(paired_qs, raw_data_train, raw_data_test, course)
+
+	# Fill in missing responses
+	raw_data_train = prepClicker.do_fill_NAs_to_6(raw_data_train)
+	raw_data_test = prepClicker.do_fill_NAs_to_6(raw_data_test)
+
+	# Remove questions that the other one doesn't have
+	train_qs = [name for name in raw_data_train.columns if name in raw_data_test.columns]
+	raw_data_train = raw_data_train[train_qs]
+
+	test_qs = [name for name in raw_data_test.columns if name in raw_data_train.columns]
+	raw_data_test = raw_data_test[test_qs]
+
+	# Generate correctness columns for each clicker question; Also change column names to "qX_c"
+	(correctness_train, correctness_test) = prepClicker.convert_responses_to_correctness_train_test(course, raw_data_train, raw_data_test, paired_qs)
+
+
+	# correctness_scaling: 
+	# 0 - it scales correctness
+	# 1 - it simply adds up the clicker responses
+	# 2 - it merges the clicker responses per week
+	correctness_scaling = 1
+
+	if (correctness_scaling == 0):
+		# Scale correctness properly with both trainset and testset
+		(correctness_train, correctness_test) = prepClicker.scale_correctness(correctness_train, correctness_test)
+	elif (correctness_scaling == 1):
+		# Adds up the clicker correctness 1 + 1 + 0 + (-1) + ... and generate one column
+		(correctness_train, correctness_test) = prepClicker.merge_correctness(correctness_train, correctness_test)
+	else:
+		# Adds up the clicker responses within each week and generate per-week column
+		(correctness_train, correctness_test) = prepClicker.merge_perweek_correctness(course, cutoffweek, paired_qs, correctness_train, correctness_test)
+		
+
+
+
+
+
+
+
+
 
 
 
