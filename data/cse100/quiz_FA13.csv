@@ -1,4 +1,4 @@
-pid,anid,readingq1,readingq2,readingq3,readingq4,readingq5,readingq6,readingq7,readingq8,readingq9,readingq10,avg_week1,avg_week2,avg_week3,avg_week4
+pid,anid,readingq1w1,readingq2w1,readingq3w2,readingq4w2,readingq5w2,readingq6w3,readingq7w3,readingq8w3,readingq9w4,readingq10w4,avg_week1,avg_week2,avg_week3,avg_week4
 A97086177,0,1,1,1,1,1,1,0,1,1,1,1,1,0.666666667,1
 A10206464,1,0.25,0.25,0,0,0.666666667,0.666666667,1,0,1,0.333333333,0.25,0.222222222,0.555555556,0.666666667
 A09826891,2,1,0.75,1,1,0.333333333,1,1,0.666666667,1,1,0.875,0.777777778,0.888888889,1

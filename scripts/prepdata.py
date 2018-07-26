@@ -4,6 +4,7 @@ import functions_prepdata_final as prepFinal
 import functions_prepdata_prereq as prepPrerec
 import functions_prepdata_midterm as prepMidterm
 import functions_prepdata_clicker as prepClicker
+import functions_prepdata_quiz as prepQuiz
 
 # Parse command line arguments, run python3 script with -h for more information
 parser = argparse.ArgumentParser(description="Preprocess student data based on user input")
@@ -98,7 +99,18 @@ if ("c" in elements):
 	else:
 		# Adds up the clicker responses within each week and generate per-week column
 		(correctness_train, correctness_test) = prepClicker.merge_perweek_correctness(course, cutoffweek, paired_qs, correctness_train, correctness_test)
-		
+
+	
+
+
+	# TODO
+
+# Append quiz data
+if ("q" in elements):
+	print("**** Reading Quiz... ****")
+
+	quiz = prepQuiz.load_quiz(course, cutoffweek)
+
 
 
 
