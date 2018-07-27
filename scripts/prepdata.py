@@ -5,6 +5,7 @@ import functions_prepdata_prereq as prepPrerec
 import functions_prepdata_midterm as prepMidterm
 import functions_prepdata_clicker as prepClicker
 import functions_prepdata_quiz as prepQuiz
+import pickle
 
 # Parse command line arguments, run python3 script with -h for more information
 parser = argparse.ArgumentParser(description="Preprocess student data based on user input")
@@ -100,10 +101,38 @@ if ("c" in elements):
 		# Adds up the clicker responses within each week and generate per-week column
 		(correctness_train, correctness_test) = prepClicker.merge_perweek_correctness(course, cutoffweek, paired_qs, correctness_train, correctness_test)
 
-	
+	# factorize the clicker responses	
+	(factored_train, factored_test) = prepClicker.factorize_responses(raw_data_train, raw_data_test)
 
+	# add_correctness:0 clicker responses only / 
+	#				  1 clicker correctness+responses / 
+	#				  2 clicker correctness only
+	add_correctness = 2
 
-	# TODO
+	if (add_correctness == 1):
+		# Add correctness+responses to scaled_data
+		clicker_train = pd.concat([final[0], correctness_train.drop(columns=[correctness_train.columns[0]]), factored_train.drop(columns=[factored_train.columns[0]])], axis=1)
+		clicker_test = pd.concat([final[1], correctness_test.drop(columns=[correctness_test.columns[0]]), factored_test.drop(columns=[factored_test.columns[0]])], axis=1)
+	elif (add_correctness == 0):
+		# Add responses only to scaled_data
+		clicker_train = pd.concat([final[0], factored_train.drop(columns=[factored_train.columns[0]])], axis=1)
+		clicker_test = pd.concat([final[1], factored_test.drop(columns=[factored_test.columns[0]])], axis=1)
+	else:
+		# Add correctness only to scaled_data
+		clicker_train = pd.concat([final[0], correctness_train.drop(columns=[correctness_train.columns[0]])], axis=1)
+		clicker_test = pd.concat([final[1], correctness_test.drop(columns=[correctness_test.columns[0]])], axis=1)
+
+		if (correctness_scaling == 1):
+			clicker_train = clicker_train.rename(columns={clicker_train.columns[2]: "clicker"})
+			clicker_test = clicker_test.rename(columns={clicker_test.columns[2]: "clicker"})
+
+	# Exceptions ignored when add_correctness == 0 or 1
+	scaled_data_train = scaled_data_train.merge(clicker_train, how="outer")
+	scaled_data_test = scaled_data_test.merge(clicker_test, how="outer")
+
+	# This has no exceptions, but will keep the duplicate columns
+	#scaled_data_train = pd.concat([scaled_data_train, clicker_train], axis=1)
+	#scaled_data_test = pd.concat([scaled_data_test, clicker_test], axis=1)
 
 # Append quiz data
 if ("q" in elements):
@@ -111,42 +140,24 @@ if ("q" in elements):
 
 	quiz = prepQuiz.load_quiz(course, cutoffweek)
 
+	scaled_data_train = scaled_data_train.merge(quiz[0], how="outer")
+	scaled_data_test = scaled_data_test.merge(quiz[1], how="outer")
 
+# Not using R code
+dynamic_option = 0
+#if((course == "cs1" or course == "cse141") and (dynamic_option != 0)):
+	#scaled.data.dynamic = append_dynamic_data(args[1], scaled.data.train, scaled.data.test, dynamic_option)
+	#scaled.data.train = scaled.data.dynamic$train
+	#scaled.data.test = scaled.data.dynamic$test
 
+print("trainset columns: ")
+print(scaled_data_train.columns)
 
+print("testset columns: ")
+print(scaled_data_test.columns)
 
+# Already sorted by anid
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# TODO
-# Change quiz files readingq1w1 for q!!!!!!
+# Save the image
+with open("../results/" + course + "/PreppedData_train_and_test.out", "wb") as outFile:
+	pickle.dump([scaled_data_train, scaled_data_test], outFile)

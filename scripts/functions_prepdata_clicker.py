@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import sys
 from sklearn.preprocessing import scale
 
 #
@@ -465,13 +466,14 @@ def scale_correctness(train, test):
 	return (train, test)
 
 def merge_correctness(train, test):
+	# New column name changed to merged_clicker for convenience
 	tempDf = pd.DataFrame(data={"anid": train[train.columns[0]]})
 	train = train.drop(columns=[train.columns[0]])
-	train_clicker = tempDf.assign(merged_quiz=train.apply(np.sum, axis=1))
+	train_clicker = tempDf.assign(merged_clicker=train.apply(np.sum, axis=1))
 
 	tempDf = pd.DataFrame(data={"anid": test[test.columns[0]]})
 	test = test.drop(columns=[test.columns[0]])
-	test_clicker = tempDf.assign(merged_quiz=test.apply(np.sum, axis=1))
+	test_clicker = tempDf.assign(merged_clicker=test.apply(np.sum, axis=1))
 
 	return (train_clicker, test_clicker)
 
@@ -550,16 +552,15 @@ def merge_perweek_correctness(course, uptowhatweek, pair, train, test):
 
 	return (train_clicker, test_clicker)
 
-def factorize_responses(df):
-	return
+def factorize_responses(train, test):
+	for i in range(1, train.shape[1]):
+		raw_cat = pd.Categorical(train[train.columns[i]], categories=[1,2,3,4,5,6], ordered=True)
+		train[train.columns[i]] = pd.Series(raw_cat)
 
-def process_dynamic_data(data):
-	return data
+		raw_cat = pd.Categorical(test[test.columns[i]], categories=[1,2,3,4,5,6], ordered=True)
+		test[test.columns[i]] = pd.Series(raw_cat)
 
-def append_dynamic_data(course, trainData, testData, option):
-	return
-
-
+	return (train, test)
 
 
 
