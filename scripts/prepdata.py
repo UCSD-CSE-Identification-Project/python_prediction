@@ -160,4 +160,4 @@ print(scaled_data_test.columns)
 
 # Save the image
 with open("../results/" + course + "/PreppedData_train_and_test.out", "wb") as outFile:
-	pickle.dump([scaled_data_train, scaled_data_test], outFile)
+	pickle.dump([scaled_data_train, scaled_data_test, args.components], outFile)

@@ -437,7 +437,7 @@ def convert_responses_to_correctness_train_test(course, train, test, pair):
 	return (train_results, test_results)
 
 #
-# Haven't tested
+# Tested, but not 100% confident
 #
 def scale_correctness(train, test):
 	start = 1
@@ -478,26 +478,26 @@ def merge_correctness(train, test):
 	return (train_clicker, test_clicker)
 
 #
-# Haven't tested
+# Haven't tested, doesn't work yet
 #
 def add_lecture_number(course, pair):
 	testsetcolumn = 0
 	lecture = []
 
 	if (course == "cs1"):
-		testsetcolumn = 3
+		testsetcolumn = 2
 	elif (course == "cse8a"):
-		testsetcolumn = 4
+		testsetcolumn = 3
 	elif (course == "cse12"):
-		testsetcolumn = 3
+		testsetcolumn = 2
 	elif (course == "cse100"):
-		testsetcolumn = 3
+		testsetcolumn = 2
 	elif (course == "cse141"):
 		# FA14-15
-		testsetcolumn <- 4
+		testsetcolumn <- 3
 		
 		# FA15-16
-		#testsetcolumn <- 5
+		#testsetcolumn <- 4
 
 	if (course == "cse141"):
 		lecture = list(pair[pair.columns[testsetcolumn]].apply(getLectureNum141))
@@ -507,7 +507,7 @@ def add_lecture_number(course, pair):
 	return pair.assign(lecture=lecture)
 
 #
-# Haven't tested
+# Haven't tested, doesn't work yey
 #
 def merge_perweek_correctness(course, uptowhatweek, pair, train, test):
 	train_clicker = pd.DataFrame(index=range(train.shape[0]), columns=range(1, uptowhatweek+1))
@@ -515,6 +515,7 @@ def merge_perweek_correctness(course, uptowhatweek, pair, train, test):
 
 	pair = add_lecture_number(course, pair)
 
+	print(train_clicker)
 	lec = 0
 	prevw_lec = 1
 	new_names = []
@@ -533,11 +534,11 @@ def merge_perweek_correctness(course, uptowhatweek, pair, train, test):
 		test_of_the_week = test.filter(items=[name for name in test.columns if name in qs_of_the_week])
 
 		if (len(targets) > 1):
-			train_clicker.assign(**{w: train_of_the_week.apply(np.sum, axis=1)})
-			test_clicker.assign(**{w: test_of_the_week.apply(np.sum, axis=1)})
+			train_clicker.assign(**{str(train_clicker.columns[w]): train_of_the_week.apply(np.sum, axis=1)})
+			test_clicker.assign(**{str(train_clicker.columns[w]): test_of_the_week.apply(np.sum, axis=1)})
 		else:
-			train_clicker.assign(**{w: train_of_the_week})
-			test_clicker.assign(**{w: test_of_the_week})
+			train_clicker.assign(**{str(train_clicker.columns[w]): train_of_the_week})
+			test_clicker.assign(**{str(train_clicker.columns[w]): test_of_the_week})
 
 		prevw_lec = lec + 1
 
