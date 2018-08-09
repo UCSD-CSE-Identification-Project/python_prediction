@@ -1,5 +1,7 @@
 import argparse
 import pandas as pd
+import statsmodels.api as sm
+import math
 from sklearn.svm import SVC
 import pickle
 import functions_train as funcTrain
@@ -82,13 +84,13 @@ if (model == 1):
 
 if (model == 0):
 	mymodel = sm.GLM(trainset["exam_total"], trainset.drop(columns=["exam_total"]), family=sm.families.Binomial()).fit()
-
+	print(mymodel.summary())
 	# Odds ratios only
 	#exp(coef(mymodel))
 	#
 	#???/
 	#
-	math.exp(mymodel.coef_)
+	# math.exp(list(mymodel.params))
 
 elif (model == 1):
 
