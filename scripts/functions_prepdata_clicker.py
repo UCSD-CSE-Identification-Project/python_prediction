@@ -7,6 +7,8 @@ from sklearn.preprocessing import scale
 # Note: anid column will be a list of floats, because NaN is a float in Python
 #
 
+# Called by prepdata.py
+# Give each row of train/test questions a universal qid
 def pair_data(course):
 	# Obtain paired question data from csv file in data frame format
 	if (course == "cs1"):
@@ -42,12 +44,14 @@ def pair_data(course):
 	paired_qs = paired_qs.rename(columns={paired_qs.columns[0]: "qid"})
 	return paired_qs.assign(qid=new_uids)
 
+# Called by load_filter_questions
 def load_data_with_anid(fname, pairinfo, ID):
 	data = pd.read_csv(fname, na_values=["<NA>"])
 	names = ["anid", "exam_total"] + list(pairinfo[ID])
 	data = data.filter(items=names)
 	return data
 
+# Called by load_filter_questions
 def combine_with_anid(data1, data2, pair, data1_col, data2_col):
 	aggregated_anid = list(data1["anid"]) + list(data2["anid"])
 	aggregated_exam = list(data1["exam_total"]) + list(data2["exam_total"])
@@ -70,6 +74,8 @@ def combine_with_anid(data1, data2, pair, data1_col, data2_col):
 
 	return aggregated
 
+# Called by load_filter_questions
+# Find each student's anid from nametable
 def addCS1Anid(data, term):
 	if (term == "train"):
 		nametable = pd.read_csv("../data/cs1/nametable_FA13.csv", na_values=["<NA>"])
@@ -80,6 +86,7 @@ def addCS1Anid(data, term):
 	anid = [None] * data.shape[0]
 	for student in range(data.shape[0]):
 		remote = data["remote"][student]
+		# Can possibly use list.index to find the index
 		for match in range(nametable.shape[0]):
 			if (nametable["remote"][match] == remote):
 				anid[student] = nametable["anid"][match]
@@ -89,8 +96,11 @@ def addCS1Anid(data, term):
 	data = data.assign(remote=anid)
 	# Change remote column name to anid
 	data = data.rename(columns={"remote": "anid"})
+
 	return data
 
+# Called by prepdata.py
+#
 def load_filter_questions(course, pairinfo):
 	if (course == "cs1"):
 		# CS1-Python data has no anid!
@@ -118,7 +128,7 @@ def load_filter_questions(course, pairinfo):
 		## TRUE: train-FA14 and test-FA15
 		## FALSE: train-FA15 and test-FA16
 		####################################
-		usefa14 = True
+		usefa14 = False
 
 		if (usefa14):
 			# Load and filter two terms of clicker data
@@ -345,7 +355,7 @@ def convert_to_universal_qid(pairinfo, train, test, course):
 		## TRUE: train-fa14, test-fa15
 		## FALSE: train-fa15, test-fa16
 		####################
-		usefa14 = True
+		usefa14 = False
 
 		if (usefa14):
 			clickerqdata_train = trainclickerdata
@@ -465,15 +475,41 @@ def scale_correctness(train, test):
 
 	return (train, test)
 
+# Called by prepdata.py
+# For each student, merge all clickers to one column (average value)
 def merge_correctness(train, test):
 	# New column name changed to merged_clicker for convenience
 	tempDf = pd.DataFrame(data={"anid": train[train.columns[0]]})
 	train = train.drop(columns=[train.columns[0]])
-	train_clicker = tempDf.assign(merged_clicker=train.apply(np.sum, axis=1))
+	train_clicker = tempDf.assign(merged_clicker=train.mean(axis=1))
 
 	tempDf = pd.DataFrame(data={"anid": test[test.columns[0]]})
 	test = test.drop(columns=[test.columns[0]])
-	test_clicker = tempDf.assign(merged_clicker=test.apply(np.sum, axis=1))
+	test_clicker = tempDf.assign(merged_clicker=test.mean(axis=1))
+
+	return (train_clicker, test_clicker)
+
+# Called by merge_correctness_by_correctratio
+# Calculate the correct percentage
+def correctratio(x):
+	correct = x.count(1)
+	incorrect = x.count(-1)
+
+	ratio = None
+	if (correct != 0 or incorrect != 0):
+		ratio = correct / (correct + incorrect)
+
+	return ratio
+
+# Called by prepdata.py
+#
+# Haven't tested
+#
+def merge_correctness_by_correctratio(train, test):
+	tempDf = pd.DataFrame(data={"anid": train[train.columns[0]]})
+	train = train.drop(columns=[train.columns[0]])
+	train_clicker = train.apply(correctratio, axis=1, result_type='reduce')
+
 
 	return (train_clicker, test_clicker)
 

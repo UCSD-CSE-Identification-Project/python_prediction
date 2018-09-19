@@ -7,6 +7,7 @@ from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_curve, auc
 
+### TODO: double-check
 def create_validation_train_test2(data, vmethod, seed):
 	sampled_train = None
 	sampled_test = None
@@ -18,10 +19,10 @@ def create_validation_train_test2(data, vmethod, seed):
 		print("stratified sampling")
 
 		failed = data.loc[data["exam_total"] == 1]
-		(sampled_train_fail, sampled_test_fail) = train_test_split(failed, test_size=0.333, train_size=0.667, shuffle=True)
+		(sampled_train_fail, sampled_test_fail) = train_test_split(failed, test_size=0.333, train_size=0.667, random_state=seed, shuffle=True)
 
 		passed = data.loc[data["exam_total"] == 0]
-		(sampled_train_pass, sampled_test_pass) = train_test_split(passed, test_size=0.333, train_size=0.667, shuffle=True)
+		(sampled_train_pass, sampled_test_pass) = train_test_split(passed, test_size=0.333, train_size=0.667, random_state=seed, shuffle=True)
 
 		sampled_train = pd.concat([sampled_train_fail, sampled_train_pass])
 		sampled_test = pd.concat([sampled_test_fail, sampled_test_pass])
@@ -55,9 +56,13 @@ def AnalyzeErrorResp(predicted, actual):
 #
 # Haven't fully tested, translated
 #
+### TODO: double-check
 def FindParameters(coursename, data):
-	random.seed(1) #!!!!!!!!!!!!!!!!!!!!!!
+	random.seed(18)#!!!!!!!!!!!!!!!!!!!!!! (1, 5): 60.8%, (6, 8): 64.2%, 9: 61.93%, 10, 11, 12, 18: 65.34%, 
 
+	#
+	# TODO: iteration can be changed
+	#
 	iteration = 10
 	weightseq = np.arange(1.0, 2.1, 0.1)
 	costseq = [2 ** i for i in range(-5, 2)]
@@ -114,8 +119,8 @@ def FindParameters(coursename, data):
 					variablesetting.iloc[cnt] = [c, g, w]
 
 					# For ROC curve
-					new_s = results["tp"]/(results["tp"] + results["fn"])
-					new_fpr = 1 - results["tn"]/(results["tn"] + results["fp"])
+					new_s = results["tp"] / (results["tp"] + results["fn"])
+					new_fpr = 1 - results["tn"] / (results["tn"] + results["fp"])
 
 					sensitivity[it][cnt] = new_s
 					fpr1[it][cnt] = new_fpr
@@ -146,6 +151,9 @@ def FindParameters(coursename, data):
 	resultstable.columns = ["C", "gamma", "classweight", "avg_AUC", "avg_dist", "avg_numofSVs", "avg_sensitivity", "avg_fpr", "avg_kappa", "avg_accuracy", "avg_trainaccuracy"]
 	#print(resultstable)
 
+	#
+	# TODO: graph not completed
+	#
 	if (validation_method == 0):
 		pp = PdfPages("../results/" + str(coursename) + "/ROC-naive.pdf")
 		plt.plot(list(avg_fpr), list(avg_sensitivity), "b.")

@@ -1,5 +1,6 @@
 import pandas as pd
 
+# Called by prepdata.py
 def reset_cutoffweek(course):
 	newcutoffweek = 0
 
@@ -16,17 +17,18 @@ def reset_cutoffweek(course):
 
 	return newcutoffweek
 
-def fill_NA(x, val):
-	return
-
+# Called by load_midterm
+# Based on the format of input csv file, dataframe only has 2 columns, anid & midterm
 def do_fill_NAs_to_average2(data):
 	# This translation only calculates the max of midterm column
 	mean = data.mean(axis=0).drop(["anid"])
 	maxVal = data["midterm"].max(axis=0)
 
+	# This only fills midterm column
 	data = data.fillna(mean)
-	return data.assign(midterm=data["midterm"].divide(maxVal/100))
+	return data.assign(midterm=data["midterm"].divide(maxVal))
 
+# Called by prepdata.py
 def load_midterm(course, usefirstmidterm):
 	if (course == "cs1"):
 		train = pd.read_csv("../data/cs1/exams_FA13.csv", na_values=["<NA>"])
@@ -41,8 +43,8 @@ def load_midterm(course, usefirstmidterm):
 		train = pd.read_csv("../data/cse100/exams_FA13.csv", na_values=["<NA>"])
 		test = pd.read_csv("../data/cse100/exams_WI15.csv", na_values=["<NA>"])
 	elif (course == "cse141"):
-		train = pd.read_csv("../data/cse141/exams_FA14.csv", na_values=["<NA>"])
-		test = pd.read_csv("../data/cse141/exams_FA15.csv", na_values=["<NA>"])
+		train = pd.read_csv("../data/cse141/exams_FA15.csv", na_values=["<NA>"])
+		test = pd.read_csv("../data/cse141/exams_FA16.csv", na_values=["<NA>"])
 
 	if (course == "cse8a" or course == "cse100"):
 		if (usefirstmidterm == 1):

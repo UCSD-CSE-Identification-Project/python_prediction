@@ -9,7 +9,7 @@ from sklearn.metrics import roc_curve, auc
 
 
 def AnalyzeConfidence(coursename, examscore, total, response, confidence):
-	tempDf = pd.DataFrame.from_dict({"total": total, "examscore": examscore, "response": response, "confidence": confidence})
+	tempDf = pd.DataFrame.from_dict({"total": total, "examscore": examscore, "response": response, "0": [pair[1] for pair in confidence], "1": [pair[0] for pair in confidence]})
 	tempDf.to_csv("../results/" + str(coursename) + "/confidence.csv")
 	return
 
@@ -52,7 +52,7 @@ def DrawROCCurve(coursename, actualpf, predictedprobability):
 	pp = PdfPages(fname)
 	(fpr, tpr, thresholds) = roc_curve(actualpf, predictedprobability)
 	roc_obj = (fpr, tpr, thresholds)
-	AUC_final = auc(fpr, tpr)
+	AUC = auc(fpr, tpr)
 
 	plt.title("Receiver Operating Characteristic")
 	plt.plot(fpr, tpr, "b", label="AUC = %0.2f" % AUC, lw=1.0)
@@ -63,8 +63,7 @@ def DrawROCCurve(coursename, actualpf, predictedprobability):
 
 	# Find the best coordinates
 	criterion = [(1-tpr[i])**2 + fpr[i]**2 for i in range(len(tpr))]
-	(bestFpr, bestTpr) = criterion[criterion.index(min(criterion))]
-
+	bestthreshold = thresholds[criterion.index(min(criterion))]
 
 	coords_tpr = np.linspace(0, 1, 21)
 	targetX = np.interp(coords_tpr, tpr, fpr)
@@ -106,8 +105,10 @@ def DrawROCCurve(coursename, actualpf, predictedprobability):
 		mean = np.mean(data)
 		std = np.std(data)
 
-		ci_lower = mean - 1.96*std/(math.sqrt(10))
-		ci_upper = mean + 1.96*std/(math.sqrt(10))
+		#ci_lower = mean - 1.96*std/(math.sqrt(10))
+		#ci_upper = mean + 1.96*std/(math.sqrt(10))
+		ci_lower = targetX[i] - 1.96*std/(math.sqrt(10))
+		ci_upper = targetX[i] + 1.96*std/(math.sqrt(10))
 
 		ci_lowers.append(ci_lower)
 		ci_uppers.append(ci_upper)
@@ -144,19 +145,7 @@ def DrawROCCurve(coursename, actualpf, predictedprobability):
     #print (roctest2)
 
     # Skipping ci=ci(roc_obj, of="auc")
-	return {"roc": roc_obj, "auc": auc_final, "bestthreshold": (bestFpr, bestTpr)}
-
-def DrawHeatMap(coursename, examscore, actualpf, predictedresults, cutoff):
-	return
-
-def save_results(num_students, test_results, coursename, dropWeek, NA_percentages):
-	return
-
-def DrawHeatMap_classification_with_anid_and_na(data, examScores, anids, course, dropWeek, cutoff):
-	return
-
-def DrawHeatMap_percentNAs(data, examScores, anids, course, dropWeek, cutoff):
-	return
+	return {"roc": roc_obj, "auc": AUC, "bestthreshold": bestthreshold}
 
 def AnalyzeError(predicted, actual, p):
 	true_positive = 0
@@ -205,6 +194,3 @@ def AnalyzeError_logitonly(predicted, actual, p=0.5):
 			totalresults.append("2")
 
 	return {"fn": false_negative, "fp": false_positive, "tn": true_negative, "tp": true_positive, "total": totalresults}
-
-def AnalyzeExamscore(coursename, category, predictedprob, actualresp, actualscores):
-	return

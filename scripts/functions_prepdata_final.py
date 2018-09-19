@@ -12,7 +12,7 @@ def score_to_binary(df):
 
 	#print([ (1 if (score<fail_score) else 0) for score in df["exam_total"] ])
 	#print(pd.factorize([ (1 if (score<fail_score) else 0) for score in df["exam_total"] ]))
-	return(df.assign(exam_total=[ (1 if (score<fail_score) else 0) for score in df["exam_total"] ]))
+	return (df.assign(exam_total=[ (1 if (score<fail_score) else 0) for score in df["exam_total"] ]))
 
 def load_final(course):
 	if (course == "cs1"):
@@ -38,7 +38,7 @@ def load_final(course):
 		## TRUE: train-FA14 and test-FA15
 		## FALSE: train-FA15 and test-FA16
 		####################################
-		usefa14 = True
+		usefa14 = False
 
 		if (usefa14):
 			raw_data_train1 = pd.read_csv("../data/cse141/nametable_FA14a.csv", na_values=["<NA>"])

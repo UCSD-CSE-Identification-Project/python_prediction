@@ -1,10 +1,12 @@
 import argparse
 import pandas as pd
 import functions_prepdata_final as prepFinal
-import functions_prepdata_prereq as prepPrerec
+import functions_prepdata_prereq as prepPrereq
 import functions_prepdata_midterm as prepMidterm
 import functions_prepdata_clicker as prepClicker
 import functions_prepdata_quiz as prepQuiz
+import functions_prepdata_assignment as prepAssign
+from sklearn.preprocessing import scale
 import pickle
 
 # Parse command line arguments, run python3 script with -h for more information
@@ -25,6 +27,13 @@ for option in args.components:
 scaled_data_train = None
 scaled_data_test = None
 
+def normalize_data(data):
+	for i in range(2, data.shape[1]):
+		# TODO scale
+		# data = data.assign(exam_total=scale(data["exam_total"]))
+
+		return
+
 # Loading Final Exam Data
 print("**** Final Exam... ****")
 # Obtain train and test sets as a tuple
@@ -36,7 +45,7 @@ scaled_data_test = final[1]
 if ("p" in elements):
 	print("**** Prerequisite... ****")
 	mergeorkeep = "merge"
-	prereq = prepPrerec.load_prereq(course, mergeorkeep)
+	prereq = prepPrereq.load_prereq(course, mergeorkeep)
 
 	if prereq[0] is not None:
 		scaled_data_train = scaled_data_train.merge(prereq[0], how="outer")

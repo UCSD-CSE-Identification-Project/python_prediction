@@ -10,7 +10,7 @@ import functions_train as funcTrain
 parser = argparse.ArgumentParser(description="Start the training process based on user selected model")
 parser.add_argument("course", choices=["cs1", "cse8a", "cse12", "cse100", "cse141"], help="choose one from: cs1, cse8a, cse12, cse100, cse141 to train")
 parser.add_argument("model", type=int, choices=[0, 1, 2], help="0 - logit, 1 - svm-rbf, 2 - rf")
-parser.add_argument("tunemethod", type=int, choices=[0, 1, 2, 3], help="0 - tune classweight, 1 - tune classweight and probability threshold, 2 - tune C/sigma/classweight")
+parser.add_argument("tunemethod", type=int, choices=[0, 1, 2, 3], help="0 - tune classweight, 1 - tune classweight and probability threshold, 2 - tune C/sigma/classweight, 3 - pre-tuned")
 args = parser.parse_args()
 
 # Get the arguments
@@ -76,13 +76,8 @@ if (model == 1):
 #######################
 
 # model: 0 - logit, 1 - svm, 2 - rf
-
-
-# for testing 
-#parameter = [2,		0.001953125,	1.3]
-
-
 if (model == 0):
+	### TODO: double-check
 	mymodel = sm.GLM(trainset["exam_total"], trainset.drop(columns=["exam_total"]), family=sm.families.Binomial()).fit()
 	print(mymodel.summary())
 	# Odds ratios only
@@ -93,20 +88,23 @@ if (model == 0):
 	# math.exp(list(mymodel.params))
 
 elif (model == 1):
-
 	# Not setting seed for now
 	# set.seed(389)
 	print("SVM model training starts...")
 
 	# No tunemethod 0 or 1
-	mymodel = SVC(C=parameter[2], gamma=parameter[1], class_weight={1:parameter[0], 0:1}).fit(trainset.drop(columns=["exam_total"]), trainset["exam_total"])
+	### TODO: double-check class_weight
+	mymodel = SVC(C=parameter[2], gamma=parameter[1], class_weight={1:parameter[0], 0:1}, probability=True).fit(trainset.drop(columns=["exam_total"]), trainset["exam_total"])
 elif (model == 3):
 	# Method: svm
 
 	# Not setting seed for now
 	# set.seed(389)s
 	print("SVM model training starts...")
-	mymodel = SVC().fit(trainset.drop(columns=["exam_total"]), trainset["exam_total"])
+	mymodel = SVC(probability=True).fit(trainset.drop(columns=["exam_total"]), trainset["exam_total"])
+elif (model == 2):
+	# model: rf
+	pass
 
 print("Training end")
 # Save image

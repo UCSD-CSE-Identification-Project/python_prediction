@@ -2,6 +2,8 @@ import pandas as pd
 import numbers
 import math
 
+# Called by preprocess
+# Change all letter scores to GPA based, except the anid column
 def transform1(e):
 	# To take care of the anid column
 	if (isinstance(e, numbers.Number)):
@@ -38,6 +40,8 @@ def transform1(e):
 
 	return result
 
+# Called by convert_to_numeric
+# Make sure the dataframe is made of numbers
 def transform2(e):
 	if (e == ""):
 		return float("NaN")
@@ -47,22 +51,26 @@ def transform2(e):
 	else:
 		return float(e)
 
+# Called by load_prereq_csv
 def preprocess(df):
 	return df.applymap(transform1)
 
+# Called by load_prereq
+# Read in data files for each course
 def load_prereq_csv(course):
 	if (course == "cse12"):
-		raw_data_train = pd.read_csv("../data/cse12/prerec_SP14.csv", na_values=["<NA>"])
-		raw_data_test = pd.read_csv("../data/cse12/prerec_SP15.csv", na_values=["<NA>"])
+		raw_data_train = pd.read_csv("../data/cse12/prereq_SP14.csv", na_values=["<NA>"])
+		raw_data_test = pd.read_csv("../data/cse12/prereq_SP15.csv", na_values=["<NA>"])
 	elif (course == "cse100"):
-		raw_data_train = pd.read_csv("../data/cse100/prerec_FA13.csv", na_values=["<NA>"])
-		raw_data_test = pd.read_csv("../data/cse100/prerec_WI15.csv", na_values=["<NA>"])
+		raw_data_train = pd.read_csv("../data/cse100/prereq_FA13.csv", na_values=["<NA>"])
+		raw_data_test = pd.read_csv("../data/cse100/prereq_WI15.csv", na_values=["<NA>"])
 	elif (course == "cse141"):
-		raw_data_train1 = pd.read_csv("../data/cse141/prerec_FA14a.csv", na_values=["<NA>"])
-		raw_data_train2 = pd.read_csv("../data/cse141/prerec_FA14b.csv", na_values=["<NA>"])
-		raw_data_train = pd.concat([raw_data_train1, raw_data_train2], ignore_index=True)
+		#raw_data_train1 = pd.read_csv("../data/cse141/prereq_FA14a.csv", na_values=["<NA>"])
+		#raw_data_train2 = pd.read_csv("../data/cse141/prereq_FA14b.csv", na_values=["<NA>"])
+		#raw_data_train = pd.concat([raw_data_train1, raw_data_train2], ignore_index=True)
 
-		raw_data_test = pd.read_csv("../data/cse141/prerec_FA15.csv", na_values=["<NA>"])
+		raw_data_train = pd.read_csv("../data/cse141/prereq_FA15.csv", na_values=["<NA>"])
+		raw_data_test = pd.read_csv("../data/cse141/prereq_FA16.csv", na_values=["<NA>"])
 
 	# Fill NAs, convert from float to string
 	raw_data_train = raw_data_train.fillna("NA")
@@ -73,11 +81,16 @@ def load_prereq_csv(course):
 
 	return (prep_train, prep_test)
 
+# Called by load_prereq
 def convert_to_numeric(df):
 	return df.applymap(transform2)
 
+# Called by load_prereq
+# CSE8A - needs to merge cse11 and cse8b column,
+# because students can take either one to fulfill the requirement.
 def preprocess_prerequisite_of_cse12(df, mergeorkeep):
 	if (mergeorkeep == "merge"):
+		# A dataframe with one column: anid
 		df_anid = df[["anid"]]
 		cse8bor11 = []
 
@@ -93,6 +106,10 @@ def preprocess_prerequisite_of_cse12(df, mergeorkeep):
 		result = df[["anid", "cse8b", "cse11"]]
 	return result
 
+# Called by load_prereq
+# CSE100 - 1) remove math154 and math184a
+#          2) merge cse5a, cse30, mae9, and ece15. May have to calculate average
+# At the end, the result would have cse12, cse15l, cse21, cse30(merged)
 def preprocess_prerequisite_of_cse100(df, mergeorkeep):
 	result = df[["anid", "cse12", "cse15l", "cse21"]]
 	going_to_merge = df[["cse5a", "cse30", "mae9", "ece15"]]
@@ -103,6 +120,8 @@ def preprocess_prerequisite_of_cse100(df, mergeorkeep):
 	elif (mergeorkeep == "keep"):
 		return pd.concat([result, going_to_merge], axis=1)
 
+# Called by load_prereq
+# Fill NA with the mean of train test combined
 def convert_NA_to_avg(train, test):
 	merged = pd.concat([train, test], ignore_index=True)
 
@@ -113,6 +132,7 @@ def convert_NA_to_avg(train, test):
 
 	return (train, test)
 
+# Called by prepdata.py
 def load_prereq(course, mergeorkeep):
 	if (course == "cs1" or course == "cse8a"):
 		print("cs1 and cse8a have no prerequisite course data... so not adding any data")
