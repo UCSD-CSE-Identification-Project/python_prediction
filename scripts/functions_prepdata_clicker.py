@@ -45,13 +45,17 @@ def pair_data(course):
 	return paired_qs.assign(qid=new_uids)
 
 # Called by load_filter_questions
+# From pairinfo get all question names, make data only contain those questions
 def load_data_with_anid(fname, pairinfo, ID):
 	data = pd.read_csv(fname, na_values=["<NA>"])
 	names = ["anid", "exam_total"] + list(pairinfo[ID])
+
+	# This step created different question sequence comparing to R, but doesn't affect correctness
 	data = data.filter(items=names)
 	return data
 
 # Called by load_filter_questions
+# Unify question name to qid
 def combine_with_anid(data1, data2, pair, data1_col, data2_col):
 	aggregated_anid = list(data1["anid"]) + list(data2["anid"])
 	aggregated_exam = list(data1["exam_total"]) + list(data2["exam_total"])
@@ -61,6 +65,7 @@ def combine_with_anid(data1, data2, pair, data1_col, data2_col):
 	data2_names = data2.columns
 
 	for i in range(pair.shape[0]):
+		# Find 2 corresponding names for each qid
 		name1 = pair[pair.columns[data1_col]][i]
 		name2 = pair[pair.columns[data2_col]][i]
 
@@ -100,7 +105,8 @@ def addCS1Anid(data, term):
 	return data
 
 # Called by prepdata.py
-#
+# Load questions data, form columns with original qname or combined qid
+# Filter out improper rows
 def load_filter_questions(course, pairinfo):
 	if (course == "cs1"):
 		# CS1-Python data has no anid!
@@ -144,8 +150,8 @@ def load_filter_questions(course, pairinfo):
 	raw_data_train = raw_data_train.drop(columns=["exam_total"])
 	raw_data_test = raw_data_test.drop(columns=["exam_total"])
 
-	# Remove rows with no data
-	# Remove rows with no anid
+	# (Remove rows with no data)
+	# Remove rows with no anid: this is essentially what is wanted in R code
 	raw_data_train = raw_data_train[pd.notna(raw_data_train["anid"])]
 	raw_data_test = raw_data_test[pd.notna(raw_data_test["anid"])]
 
@@ -159,6 +165,7 @@ def load_filter_questions(course, pairinfo):
 
 	return (raw_data_train, raw_data_test)
 
+# Called by DropLateLectures
 def getLectureNum(str):
 	lecnum = 0
 
@@ -168,12 +175,15 @@ def getLectureNum(str):
 	# lecnum is >= 10
 	else:
 		lecnum = int(str[1:3])
+
 	return lecnum
 
+# Called by DropLateLectures
 def getLectureNum141(str):
 	lecnum = int(str[1:3])
 	return lecnum
 
+# Called by DropLectures
 def DropLateLectures(data, dropfromthislecture, course):
 	drops = []
 
@@ -183,6 +193,7 @@ def DropLateLectures(data, dropfromthislecture, course):
 		else:
 			lectureNumber = getLectureNum(data.columns[i])
 
+		# Prepare to drop
 		if (lectureNumber >= dropfromthislecture):
 			drops.append(data.columns[i])
 
@@ -190,6 +201,7 @@ def DropLateLectures(data, dropfromthislecture, course):
 
 	return data
 
+# Called by DropLectures
 def fromWhatLecture(course, keep_up_to_this_week):
 	dropLecturefrom = 0
 	if (course == "cs1"):
@@ -272,7 +284,7 @@ def fromWhatLecture(course, keep_up_to_this_week):
 			dropLecturefrom = 16
 		elif (keep_up_to_this_week == 7):
 			dropLecturefrom = 18
-		else:                   			# CSE 100 WI15 has only 19 lectures
+		else:                              # CSE 100 WI15 has only 19 lectures
 			dropLecturefrom = 100          # Weeks 9 and 10 will produce the same results as week 8
 	elif (course == "cse141"):
 		## even when using FA15 as test set, 
@@ -300,6 +312,8 @@ def fromWhatLecture(course, keep_up_to_this_week):
 
 	return dropLecturefrom
 
+# Called by prepdata.py
+# Drop the lectures after the cutoff week
 def DropLectures(data, dropWeek, course):
 	# Determine from what lecture to drop
 	dropLecture = fromWhatLecture(course, dropWeek)
@@ -309,6 +323,7 @@ def DropLectures(data, dropWeek, course):
 
 	return newData
 
+# Called by convert_to_universal_qid
 def ProcessClickerQData(pair, data, whichcolumn):
 	new_name = []
 	keep = []
@@ -317,7 +332,7 @@ def ProcessClickerQData(pair, data, whichcolumn):
 	for qname in range(data.shape[1]):
 		orig_name = data.columns[qname]
 
-		# The question has a corresponding pair with the test set
+		# The question has a corresponding pair with the other set
 		if (orig_name in list(pair[pair.columns[whichcolumn]])):
 			ind = list(pair[pair.columns[whichcolumn]]).index(orig_name)
 
@@ -328,13 +343,12 @@ def ProcessClickerQData(pair, data, whichcolumn):
 	final_data.columns = new_name
 	return final_data
 
+# Called by prepdata.py
+# Convert any remaining question names to universal qid
 def convert_to_universal_qid(pairinfo, train, test, course):
 	trainclickerdata = train.drop(columns=[train.columns[0]])
 	testclickerdata = test.drop(columns=[test.columns[0]])
 
-	#
-	# Some of the return have difference sequence comparing to R, might because of DropLecture
-	#
 	if (course == "cs1"):
 		clickerqdata_train = ProcessClickerQData(pairinfo, trainclickerdata, 1)
 		clickerqdata_test = ProcessClickerQData(pairinfo, testclickerdata, 2)
@@ -347,8 +361,6 @@ def convert_to_universal_qid(pairinfo, train, test, course):
 	elif (course == "cse100"):
 		clickerqdata_train = ProcessClickerQData(pairinfo, trainclickerdata, 1)
 		clickerqdata_test = ProcessClickerQData(pairinfo, testclickerdata, 2)
-		#print(clickerqdata_test.columns)
-		#print(len(clickerqdata_test.columns))
 	elif (course == "cse141"):
 		####################
 		## usefa14:
@@ -364,10 +376,10 @@ def convert_to_universal_qid(pairinfo, train, test, course):
 			clickerqdata_train = ProcessClickerQData(pairinfo, trainclickerdata, 3)
 			clickerqdata_test = ProcessClickerQData(pairinfo, testclickerdata, 4)
 
-	tempDf = pd.DataFrame(data={"anid": train[train.columns[0]]})
+	tempDf = pd.DataFrame(data={"anid": train["anid"]})
 	train_result = pd.concat([tempDf, clickerqdata_train], axis=1)
 
-	tempDf = pd.DataFrame(data={"anid": test[test.columns[0]]})
+	tempDf = pd.DataFrame(data={"anid": test["anid"]})
 	test_result = pd.concat([tempDf, clickerqdata_test], axis=1)
 
 	return (train_result, test_result)
@@ -598,32 +610,3 @@ def factorize_responses(train, test):
 		test[test.columns[i]] = pd.Series(raw_cat)
 
 	return (train, test)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
