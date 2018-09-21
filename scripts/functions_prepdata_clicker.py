@@ -384,9 +384,11 @@ def convert_to_universal_qid(pairinfo, train, test, course):
 
 	return (train_result, test_result)
 
+# Called by prepdata.py
 def do_fill_NAs_to_6(data):
 	return data.fillna(6)
 
+# Called by prepdata.py
 def convert_responses_to_correctness(data, pair):
 	for i in range(data.shape[1]):
 		qname = data.columns[i]
@@ -394,9 +396,7 @@ def convert_responses_to_correctness(data, pair):
 		cans = pair["cans"][qrownum]
 		resp = list(data[data.columns[i]])
 
-		#
-		# Why a vector in R?
-		#
+		# Make sure cans is a list
 		if (cans >= 10):
 			cans = [int(d) for d in str(cans)]
 		else:
@@ -458,9 +458,7 @@ def convert_responses_to_correctness_train_test(course, train, test, pair):
 
 	return (train_results, test_results)
 
-#
-# Tested, but not 100% confident
-#
+# Called by prepdata.py
 def scale_correctness(train, test):
 	start = 1
 	if (train.columns[start] == "exam_total"):
@@ -473,9 +471,7 @@ def scale_correctness(train, test):
 		if (qname in list(test.columns)):
 			total_correctness = total_correctness + list(test[qname])
 		scaled_total_correctness = scale(total_correctness)
-		# Scaling the range to be 0-1 is deactivated for now
-		# scaled.total.correctness <- (scaled.total.correctness - min(scaled.total.correctness)) /
-		#							(max(scaled.total.correctness) - min(scaled.total.correctness))
+
 		if (qname in list(test.columns)):
 			scaled_train_correctness = scaled_total_correctness[:train.shape[0]]
 			scaled_test_correctness = scaled_total_correctness[train.shape[0]:]
@@ -504,8 +500,8 @@ def merge_correctness(train, test):
 # Called by merge_correctness_by_correctratio
 # Calculate the correct percentage
 def correctratio(x):
-	correct = x.count(1)
-	incorrect = x.count(-1)
+	correct = list(x).count(1)
+	incorrect = list(x).count(-1)
 
 	ratio = None
 	if (correct != 0 or incorrect != 0):
@@ -514,14 +510,19 @@ def correctratio(x):
 	return ratio
 
 # Called by prepdata.py
-#
-# Haven't tested
-#
+# The correct ratio of each row
 def merge_correctness_by_correctratio(train, test):
 	tempDf = pd.DataFrame(data={"anid": train[train.columns[0]]})
 	train = train.drop(columns=[train.columns[0]])
-	train_clicker = train.apply(correctratio, axis=1, result_type='reduce')
+	train_clicker = train.apply(correctratio, axis=1)
+	train_clicker = train_clicker.fillna(train_clicker.mean())
+	train_clicker = tempDf.assign(train_clicker=train_clicker)
 
+	tempDf = pd.DataFrame(data={"anid": test[test.columns[0]]})
+	test = test.drop(columns=[test.columns[0]])
+	test_clicker = test.apply(correctratio, axis=1)
+	test_clicker = test_clicker.fillna(test_clicker.mean())
+	test_clicker = tempDf.assign(test_clicker=test_clicker)
 
 	return (train_clicker, test_clicker)
 

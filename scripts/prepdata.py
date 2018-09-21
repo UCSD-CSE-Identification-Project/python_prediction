@@ -97,8 +97,9 @@ if ("c" in elements):
 	# correctness_scaling: 
 	# 0 - it scales correctness
 	# 1 - it simply adds up the clicker responses
-	# 2 - it merges the clicker responses per week
-	correctness_scaling = 1
+	# 2 - it calculates correct/total responses
+	# 3 - it merges the clicker responses per week
+	correctness_scaling = 2#1
 
 	if (correctness_scaling == 0):
 		# Scale correctness properly with both trainset and testset
@@ -106,6 +107,9 @@ if ("c" in elements):
 	elif (correctness_scaling == 1):
 		# Adds up the clicker correctness 1 + 1 + 0 + (-1) + ... and generate one column
 		(correctness_train, correctness_test) = prepClicker.merge_correctness(correctness_train, correctness_test)
+	elif (correctness_scaling == 2):
+		# Calculates correct/total and generate one column
+		(correctness_train, correctness_test) = prepClicker.merge_correctness_by_correctratio(correctness_train, correctness_test)
 	else:
 		# Adds up the clicker responses within each week and generate per-week column
 		(correctness_train, correctness_test) = prepClicker.merge_perweek_correctness(course, cutoffweek, paired_qs, correctness_train, correctness_test)
