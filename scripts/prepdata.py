@@ -99,7 +99,7 @@ if ("c" in elements):
 	# 1 - it simply adds up the clicker responses
 	# 2 - it calculates correct/total responses
 	# 3 - it merges the clicker responses per week
-	correctness_scaling = 2#1
+	correctness_scaling = 1
 
 	if (correctness_scaling == 0):
 		# Scale correctness properly with both trainset and testset
@@ -135,7 +135,7 @@ if ("c" in elements):
 		clicker_train = pd.concat([final[0], correctness_train.drop(columns=[correctness_train.columns[0]])], axis=1)
 		clicker_test = pd.concat([final[1], correctness_test.drop(columns=[correctness_test.columns[0]])], axis=1)
 
-		if (correctness_scaling == 1):
+		if (correctness_scaling == 1 or correctness_scaling == 2):
 			clicker_train = clicker_train.rename(columns={clicker_train.columns[2]: "clicker"})
 			clicker_test = clicker_test.rename(columns={clicker_test.columns[2]: "clicker"})
 

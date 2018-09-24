@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import math
 import sys
 from sklearn.preprocessing import scale
 
@@ -165,9 +166,11 @@ def load_filter_questions(course, pairinfo):
 
 	return (raw_data_train, raw_data_test)
 
-# Called by DropLateLectures
+# Called by DropLateLectures, merge_perweek_correctness
 def getLectureNum(str):
 	lecnum = 0
+	if (pd.isna(str)):
+		return math.nan
 
 	# lecnum is below 10 (0 ~ 9)
 	if (str[2:3] == "q"):
@@ -178,8 +181,10 @@ def getLectureNum(str):
 
 	return lecnum
 
-# Called by DropLateLectures
+# Called by DropLateLectures, merge_perweek_correctness
 def getLectureNum141(str):
+	if (pd.isna(str)):
+		return math.nan
 	lecnum = int(str[1:3])
 	return lecnum
 
@@ -417,6 +422,7 @@ def convert_responses_to_correctness(data, pair):
 
 	return data
 
+# Called by convert_responses_to_correctness_train_test
 def change_columnnames(df):
 	new_names = []
 
@@ -426,6 +432,7 @@ def change_columnnames(df):
 	df.columns = new_names
 	return df
 
+# Called by prepdata.py
 def convert_responses_to_correctness_train_test(course, train, test, pair):
 	trainclickerdata = train.drop(columns=[train.columns[0]])
 	testclickerdata = test.drop(columns=[test.columns[0]])
@@ -526,9 +533,8 @@ def merge_correctness_by_correctratio(train, test):
 
 	return (train_clicker, test_clicker)
 
-#
-# Haven't tested, doesn't work yet
-#
+# Called by merge_perweek_correctness
+# If there is nan, then the whole list will be of float
 def add_lecture_number(course, pair):
 	testsetcolumn = 0
 	lecture = []
@@ -543,10 +549,10 @@ def add_lecture_number(course, pair):
 		testsetcolumn = 2
 	elif (course == "cse141"):
 		# FA14-15
-		testsetcolumn <- 3
+		#testsetcolumn = 3
 		
 		# FA15-16
-		#testsetcolumn <- 4
+		testsetcolumn = 4
 
 	if (course == "cse141"):
 		lecture = list(pair[pair.columns[testsetcolumn]].apply(getLectureNum141))
@@ -555,44 +561,51 @@ def add_lecture_number(course, pair):
 
 	return pair.assign(lecture=lecture)
 
-#
-# Haven't tested, doesn't work yey
-#
+# Called by prepdata.py
 def merge_perweek_correctness(course, uptowhatweek, pair, train, test):
 	train_clicker = pd.DataFrame(index=range(train.shape[0]), columns=range(1, uptowhatweek+1))
 	test_clicker = pd.DataFrame(index=range(test.shape[0]), columns=range(1, uptowhatweek+1))
-
 	pair = add_lecture_number(course, pair)
 
-	print(train_clicker)
 	lec = 0
 	prevw_lec = 1
 	new_names = []
 
+
 	for w in range(1, uptowhatweek+1):
+		# Store all the new clicker names
 		new_names.append("w" + str(w) + "clicker")
 
+	train_clicker.columns = new_names
+	test_clicker.columns = new_names
+
+	for w in range(1, uptowhatweek+1):
+		# Print out week and question information
 		lec = fromWhatLecture(course, w) - 1
 		print("week " + str(w) + ": from " + str(prevw_lec) + " ~ " + str(lec))
-		targets = [list(pair["lecture"]).index(lecture) for lecture in list(pair["lecture"]) if lecture <= lec and lecture >= prevw_lec]
+
+		counter = 1
+		targets = []
+		for lecture in list(pair["lecture"]):
+			if (lecture <= lec and lecture >= prevw_lec):
+				targets.append(counter)
+			counter += 1
 		print(targets)
-		questions = [pair["qid"][index] for index in targets]
+
+		questions = [pair["qid"][index-1] for index in targets]
 		qs_of_the_week = [str(q)+"_c" for q in questions]
 
 		train_of_the_week = train.filter(items=[name for name in train.columns if name in qs_of_the_week])
 		test_of_the_week = test.filter(items=[name for name in test.columns if name in qs_of_the_week])
 
 		if (len(targets) > 1):
-			train_clicker.assign(**{str(train_clicker.columns[w]): train_of_the_week.apply(np.sum, axis=1)})
-			test_clicker.assign(**{str(train_clicker.columns[w]): test_of_the_week.apply(np.sum, axis=1)})
+			train_clicker = train_clicker.assign(**{train_clicker.columns[w-1]: train_of_the_week.apply(np.sum, axis=1)})
+			test_clicker = test_clicker.assign(**{train_clicker.columns[w-1]: test_of_the_week.apply(np.sum, axis=1)})
 		else:
-			train_clicker.assign(**{str(train_clicker.columns[w]): train_of_the_week})
-			test_clicker.assign(**{str(train_clicker.columns[w]): test_of_the_week})
+			train_clicker = train_clicker.assign(**{train_clicker.columns[w-1]: train_of_the_week})
+			test_clicker = test_clicker.assign(**{train_clicker.columns[w-1]: test_of_the_week})
 
 		prevw_lec = lec + 1
-
-	train_clicker.columns = new_names
-	test_clicker.columns = new_names
 
 	tempDf = pd.DataFrame(data={train.columns[0]: train[train.columns[0]]})
 	train_clicker = pd.concat([tempDf, train_clicker], axis=1)
@@ -602,6 +615,7 @@ def merge_perweek_correctness(course, uptowhatweek, pair, train, test):
 
 	return (train_clicker, test_clicker)
 
+# Called by prepdata.py
 def factorize_responses(train, test):
 	for i in range(1, train.shape[1]):
 		raw_cat = pd.Categorical(train[train.columns[i]], categories=[1,2,3,4,5,6], ordered=True)
@@ -609,5 +623,4 @@ def factorize_responses(train, test):
 
 		raw_cat = pd.Categorical(test[test.columns[i]], categories=[1,2,3,4,5,6], ordered=True)
 		test[test.columns[i]] = pd.Series(raw_cat)
-
 	return (train, test)
