@@ -1,11 +1,13 @@
 import pandas as pd
 import numpy as np
 
+# Called by load_quiz
 def do_fill_NAs_to_average(data):
 	mean = data.mean(axis=0)
 	data = data.fillna(mean)
 	return data
 
+# Called by load_quiz
 def do_fill_0s_to_average(data):
 	mean_pairs = {}
 	mean = data.mean(axis=0)
@@ -17,10 +19,13 @@ def do_fill_0s_to_average(data):
 	data = data.replace(0, mean_pairs)
 	return data
 
+# Called by load_quiz
 def divide_by_max(data):
 	maxVals = data.max(axis=0)
 	return data.divide(maxVals)	
 
+# Called by load_quiz
+# Based on quiz names, filter out the unwanted ones
 def filter_quiz(column_names, uptowhatweek):
 	names = []
 
@@ -33,6 +38,7 @@ def filter_quiz(column_names, uptowhatweek):
 
 	return names
 
+# Called by prepdata.py
 def load_quiz(course, uptowhatweek):
 	# Up to which week do we want to include quiz data?
 	# else only data up to week4 is included. Including data up to future weeks is not supported
@@ -48,7 +54,9 @@ def load_quiz(course, uptowhatweek):
 		quiz_train = do_fill_NAs_to_average(quiz_train)
 		quiz_train = divide_by_max(quiz_train)
 
-		mergedquiz = quiz_train.apply(np.sum, axis=1)
+		#mergedquiz = quiz_train.apply(np.sum, axis=1)
+		mergedquiz = quiz_train.mean(axis=1)
+
 		quiz_train = pd.concat([tempDf, mergedquiz], axis=1)
 		quiz_train = quiz_train.rename(columns={0: "mergedquiz"})
 
@@ -59,7 +67,8 @@ def load_quiz(course, uptowhatweek):
 		quiz_test = do_fill_NAs_to_average(quiz_test)
 		quiz_test = divide_by_max(quiz_test)
 
-		mergedquiz = quiz_test.apply(np.sum, axis=1)
+		#mergedquiz = quiz_test.apply(np.sum, axis=1)
+		mergedquiz = quiz_test.mean(axis=1)
 		quiz_test = pd.concat([tempDf, mergedquiz], axis=1)
 		quiz_test = quiz_test.rename(columns={0: "mergedquiz"})
 	elif (course == "cse8a"):
@@ -71,7 +80,8 @@ def load_quiz(course, uptowhatweek):
 		quiz_train = do_fill_NAs_to_average(quiz_train)
 		quiz_train = divide_by_max(quiz_train)
 
-		mergedquiz = quiz_train.apply(np.sum, axis=1)
+		#mergedquiz = quiz_train.apply(np.sum, axis=1)
+		mergedquiz = quiz_train.mean(axis=1)
 		quiz_train = pd.concat([tempDf, mergedquiz], axis=1)
 		quiz_train = quiz_train.rename(columns={0: "mergedquiz"})
 
@@ -83,7 +93,8 @@ def load_quiz(course, uptowhatweek):
 		quiz_test = do_fill_0s_to_average(quiz_test)
 		quiz_test = divide_by_max(quiz_test)
 
-		mergedquiz = quiz_test.apply(np.sum, axis=1)
+		#mergedquiz = quiz_test.apply(np.sum, axis=1)
+		mergedquiz = quiz_test.mean(axis=1)
 		quiz_test = pd.concat([tempDf, mergedquiz], axis=1)
 		quiz_test = quiz_test.rename(columns={0: "mergedquiz"})
 	elif (course == "cse12"):
@@ -96,7 +107,8 @@ def load_quiz(course, uptowhatweek):
 		quiz_train = quiz_train.filter(items=filter_quiz(quiz_train.columns, uptowhatweek))
 		quiz_train = do_fill_0s_to_average(quiz_train)
 
-		mergedquiz = quiz_train.apply(np.sum, axis=1)
+		#mergedquiz = quiz_train.apply(np.sum, axis=1)
+		mergedquiz = quiz_train.mean(axis=1)
 		quiz_train = pd.concat([tempDf, mergedquiz], axis=1)
 		quiz_train = quiz_train.rename(columns={0: "mergedquiz"})
 
@@ -109,7 +121,8 @@ def load_quiz(course, uptowhatweek):
 		quiz_test = quiz_test.filter(items=filter_quiz(quiz_test.columns, uptowhatweek))
 		quiz_test = do_fill_0s_to_average(quiz_test)
 
-		mergedquiz = quiz_test.apply(np.sum, axis=1)
+		#mergedquiz = quiz_test.apply(np.sum, axis=1)
+		mergedquiz = quiz_test.mean(axis=1)
 		quiz_test = pd.concat([tempDf, mergedquiz], axis=1)
 		quiz_test = quiz_test.rename(columns={0: "mergedquiz"})
 	elif (course == "cse100"):
@@ -122,7 +135,8 @@ def load_quiz(course, uptowhatweek):
 		quiz_train = quiz_train.filter(items=filter_quiz(quiz_train.columns, uptowhatweek))
 		quiz_train = do_fill_0s_to_average(quiz_train)
 
-		mergedquiz = quiz_train.apply(np.sum, axis=1)
+		#mergedquiz = quiz_train.apply(np.sum, axis=1)
+		mergedquiz = quiz_train.mean(axis=1)
 		quiz_train = pd.concat([tempDf, mergedquiz], axis=1)
 		quiz_train = quiz_train.rename(columns={0: "mergedquiz"})
 
@@ -135,7 +149,8 @@ def load_quiz(course, uptowhatweek):
 		quiz_test = quiz_test.filter(items=filter_quiz(quiz_test.columns, uptowhatweek))
 		quiz_test = do_fill_0s_to_average(quiz_test)
 
-		mergedquiz = quiz_test.apply(np.sum, axis=1)
+		#mergedquiz = quiz_test.apply(np.sum, axis=1)
+		mergedquiz = quiz_test.mean(axis=1)
 		quiz_test = pd.concat([tempDf, mergedquiz], axis=1)
 		quiz_test = quiz_test.rename(columns={0: "mergedquiz"})
 	elif (course == "cse141"):
@@ -144,7 +159,7 @@ def load_quiz(course, uptowhatweek):
 		## TRUE: train-FA14 and test-FA15
 		## FALSE: train-FA15 and test-FA16
 		####################################
-		usefa14 = True
+		usefa14 = False
 
 		if (usefa14):
 			# Add trainset quiz data
@@ -162,7 +177,8 @@ def load_quiz(course, uptowhatweek):
 			quiz_train = do_fill_NAs_to_average(quiz_train)
 			quiz_train = divide_by_max(quiz_train)
 
-			mergedquiz = quiz_train.apply(np.sum, axis=1)
+			#mergedquiz = quiz_train.apply(np.sum, axis=1)
+			mergedquiz = quiz_train.mean(axis=1)
 			quiz_train = pd.concat([tempDf, mergedquiz], axis=1)
 			quiz_train = quiz_train.rename(columns={0: "mergedquiz"})
 
@@ -175,7 +191,8 @@ def load_quiz(course, uptowhatweek):
 			quiz_test = quiz_test.filter(items=quizzes)
 			quiz_test = do_fill_NAs_to_average(quiz_test)
 
-			mergedquiz = quiz_test.apply(np.sum, axis=1)
+			#mergedquiz = quiz_test.apply(np.sum, axis=1)
+			mergedquiz = quiz_test.mean(axis=1)
 			quiz_test = pd.concat([tempDf, mergedquiz], axis=1)
 			quiz_test = quiz_test.rename(columns={0: "mergedquiz"})
 		else:
@@ -188,7 +205,8 @@ def load_quiz(course, uptowhatweek):
 			quiz_train = quiz_train.filter(items=quizzes)
 			quiz_train = do_fill_NAs_to_average(quiz_train)
 
-			mergedquiz = quiz_train.apply(np.sum, axis=1)
+			#mergedquiz = quiz_train.apply(np.sum, axis=1)
+			mergedquiz = quiz_train.mean(axis=1)
 			quiz_train = pd.concat([tempDf, mergedquiz], axis=1)
 			quiz_train = quiz_train.rename(columns={0: "mergedquiz"})
 
@@ -201,7 +219,8 @@ def load_quiz(course, uptowhatweek):
 			quiz_test = quiz_test.filter(items=quizzes)
 			quiz_test = do_fill_NAs_to_average(quiz_test)
 
-			mergedquiz = quiz_test.apply(np.sum, axis=1)
+			#mergedquiz = quiz_test.apply(np.sum, axis=1)
+			mergedquiz = quiz_test.mean(axis=1)
 			quiz_test = pd.concat([tempDf, mergedquiz], axis=1)
 			quiz_test = quiz_test.rename(columns={0: "mergedquiz"})
 
