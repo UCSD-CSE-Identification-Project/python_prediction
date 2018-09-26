@@ -13,7 +13,7 @@ import pickle
 parser = argparse.ArgumentParser(description="Preprocess student data based on user input")
 parser.add_argument("course", choices=["cs1", "cse8a", "cse12", "cse100", "cse141"], help="choose one from: cs1, cse8a, cse12, cse100, cse141 to prep data")
 parser.add_argument("cutoffweek", type=int, help="up to which week will be in the testset (cs1 can model up to weeks 3-12, all other courses can model up to weeks 3-10)")
-parser.add_argument("components", help="combination of course components to model with, at least 1 component, at most all 4 components: c (clicker), m (midterm), p (prereq), q (quiz)")
+parser.add_argument("components", help="combination of course components to model with, at least 1 component, at most all 4 components: c (clicker), m (midterm), p (prereq), q (quiz), a (assignment)")
 args = parser.parse_args()
 
 # Get the arguments
@@ -147,7 +147,7 @@ if ("c" in elements):
 	#scaled_data_train = pd.concat([scaled_data_train, clicker_train], axis=1)
 	#scaled_data_test = pd.concat([scaled_data_test, clicker_test], axis=1)
 
-# Append quiz data
+# Loading quiz data
 if ("q" in elements):
 	print("**** Reading Quiz... ****")
 
@@ -155,6 +155,15 @@ if ("q" in elements):
 
 	scaled_data_train = scaled_data_train.merge(quiz[0], how="outer")
 	scaled_data_test = scaled_data_test.merge(quiz[1], how="outer")
+
+# Loading assignment data
+if ("a" in elements):
+	print("**** Assignments... ****")
+
+	assignment = prepAssign.load_assignment(course, cutoffweek)
+
+	scaled_data_train = scaled_data_train.merge(assignment[0], how="outer")
+	scaled_data_test = scaled_data_test.merge(assignment[1], how="outer")
 
 # Not using R code
 dynamic_option = 0
