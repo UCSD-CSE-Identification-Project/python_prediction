@@ -27,12 +27,15 @@ for option in args.components:
 scaled_data_train = None
 scaled_data_test = None
 
+# -----------------------------
+# Called at the end of prepdata
 def normalize_data(data):
 	for i in range(2, data.shape[1]):
-		# TODO scale
 		# data = data.assign(exam_total=scale(data["exam_total"]))
-
-		return
+		data = data.assign(**{data.columns[i]: scale(data[data.columns[i]])})
+	
+	return data
+# -----------------------------
 
 # Loading Final Exam Data
 print("**** Final Exam... ****")
@@ -161,7 +164,6 @@ if ("a" in elements):
 	print("**** Assignments... ****")
 
 	assignment = prepAssign.load_assignment(course, cutoffweek)
-	print(assignment[0])
 
 	scaled_data_train = scaled_data_train.merge(assignment[0], how="outer")
 	scaled_data_test = scaled_data_test.merge(assignment[1], how="outer")
@@ -180,6 +182,12 @@ print("testset columns: ")
 print(scaled_data_test.columns)
 
 # Already sorted by anid
+scaled_data_train = scaled_data_train.sort_values(by=["anid"])
+scaled_data_test = scaled_data_test.sort_values(by=["anid"])
+
+# Before scaling, R python are exactly the same. Different after scaling.
+scaled_data_train = normalize_data(scaled_data_train)
+scaled_data_test = normalize_data(scaled_data_test)
 
 # Save the image
 with open("../results/" + course + "/PreppedData_train_and_test.out", "wb") as outFile:
