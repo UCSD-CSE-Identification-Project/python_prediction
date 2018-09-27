@@ -76,7 +76,7 @@ def filter_testset(data, week, course):
 				# Calculate avg(a4,a5) and name it as a5
 				a5 = result[["a4", "a5"]].mean(axis=1)
 				result = result.drop(columns=["a4", "a5"])
-				result = pd.concat([result, a5], axis=1)
+				result = result.assign(a5=a5)
 	return result
 
 # Called by remove_later_assignments
@@ -86,7 +86,7 @@ def filter_trainset(data, testnames, course):
 		# Calculate avg(a3, a4) of the trainset and name it as a3
 		a3 = data[["a3", "a4"]].mean(axis=1)
 		result = data.drop(columns=["a3", "a4"])
-		result = pd.concat([result, a3], axis=1)
+		result = result.assign(a3=a3)
 	else:
 		result = data
 
