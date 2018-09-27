@@ -161,6 +161,7 @@ if ("a" in elements):
 	print("**** Assignments... ****")
 
 	assignment = prepAssign.load_assignment(course, cutoffweek)
+	print(assignment[0])
 
 	scaled_data_train = scaled_data_train.merge(assignment[0], how="outer")
 	scaled_data_test = scaled_data_test.merge(assignment[1], how="outer")

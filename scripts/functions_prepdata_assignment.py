@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import re
 
 # Called by load_assignment
 def load_csv(course):
@@ -21,10 +22,21 @@ def load_csv(course):
 
 	return (train, test)
 
-# Called by load_assignment ??????????
+# Called by load_assignment
 def remove_extra_columns(train, test):
-	train = train.drop(columns=["remote"])
-	test = test.drop(columns=["remote"])
+	anames_train = ["anid"]
+	anames_test = ["anid"]
+
+	for name in train.columns:
+		if (re.match(r'^a[0-9]+$', name) != None):
+			anames_train.append(name)
+
+	for name in test.columns:
+		if (re.match(r'^a[0-9]+w[0-9]+$', name) != None):
+			anames_test.append(name)
+
+	train = train.filter(items=anames_train)
+	test = test.filter(items=anames_test)
 
 	return (train, test)
 
@@ -42,6 +54,8 @@ def filter_testset(data, week, course):
 
 	dueweek = pd.concat([tempDf, dueweek], axis=1)
 	dueweek.columns = ["fullname", "a", "dueweek"]
+
+	# Change the column of dueweek from strings to all ints
 	dueweek = dueweek.assign(dueweek=[int(num) for num in dueweek["dueweek"]])
 
 	filtered = dueweek.loc[dueweek["dueweek"] <= week]
@@ -49,10 +63,10 @@ def filter_testset(data, week, course):
 	if (filtered.shape[0] == 0):
 		result = data[["anid"]]
 	else:
-		filtered_names = ["anid"] + filtered["fullname"]
+		filtered_names = ["anid"] + list(filtered["fullname"])
 		result = data.filter(items=filtered_names)
 
-		result.columns = ["anid"] + filtered["a"]
+		result.columns = ["anid"] + list(filtered["a"])
 
 		if (course == "cse141" and week >= 8):
 			if (week == 8):
@@ -60,9 +74,9 @@ def filter_testset(data, week, course):
 				result = result.rename(columns={"a4": "a5"})
 			else:
 				# Calculate avg(a4,a5) and name it as a5
-				a4 = result[["a4", "a5"]].mean(axis=1)
+				a5 = result[["a4", "a5"]].mean(axis=1)
 				result = result.drop(columns=["a4", "a5"])
-				result = pd.concat([result, a4], axis=1)
+				result = pd.concat([result, a5], axis=1)
 	return result
 
 # Called by remove_later_assignments
@@ -107,7 +121,7 @@ def merge_assignment_scores(data):
 
 	return result
 
-# Called by convert_NAs_to_avg_for_dataframe
+# Called by convert_NAs_to_avg
 def convert_NAs_to_avg_for_dataframe(df):
 	columnavgs = df.mean(axis=0)
 	df = df.fillna(columnavgs)
