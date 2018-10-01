@@ -4,6 +4,7 @@ import math
 import pickle
 import functions_train as funcTrain
 import functions_test as funcTest
+from pathlib import Path
 
 # Parse command line arguments, run python3 script with -h for more information
 parser = argparse.ArgumentParser(description="Start the testing process")
@@ -39,7 +40,8 @@ if (model == 0):
 		results = funcTest.AnalyzeError_logitonly(pf, test_data["exam_total"])
 	elif (roc == 1):
 		# If you want to use ROC curve, this generates ROC curve and determines the best probability threshold
-		ROCresults = funcTest.DrawROCCurve(course, test_data["exam_total"], pf)
+		#ROCresults = funcTest.DrawROCCurve(course, test_data["exam_total"], pf)
+		ROCresults = funcTest.DrawbasicROCCurve(course, test_data["exam_total"], pf)
 		results = funcTest.AnalyzeError(pf, test_data["exam_total"], ROCresults["bestthreshold"])
 elif (model == 1 or model == 3):
 	if (tune == 0 or tune == 2 or tune == 3):
@@ -51,12 +53,8 @@ elif (model == 1 or model == 3):
 		print(pf_prob)
 		# Write to csv file
 		funcTest.AnalyzeConfidence(course, test_data["exam_total"], results["total"], pf, pf_prob)
-
-		#
-		# TODO: double-check
-		#
-		print("here!!!")
-		ROCresults = funcTest.DrawROCCurve(course, test_data["exam_total"], [pair[0] for pair in pf_prob])
+		#???????????????
+		ROCresults = funcTest.DrawROCCurve(course, test_data["exam_total"], [pair[1] for pair in pf_prob])
 		resuls = funcTest.AnalyzeError([pair[1] for pair in pf_prob], test_data["exam_total"], ROCresults["bestthreshold"])
 	elif (tune == 1):
 		pass
@@ -104,17 +102,19 @@ print("AUC: ", ROCresults["auc"])
 print(round(100 * results["tp"] / Sum, 1), round(100 * results["fp"] / Sum, 1), round(100 * results["fn"] / Sum, 1), round(100 * results["tn"] / Sum, 1),
         round(100 * Acc, 2), PPV, Sensitivity, round(F1_pos, 2), round(kappa, 2),round(MCC, 2))
 
+fname = "../results/" + str(course) + "/results_earlytolate.csv"
+old_file = Path(fname)
+
+if (old_file.is_file()):
+	csvresults = pd.read_csv(fname, na_values=["<NA>"])
+	newrow = pd.DataFrame({"option": datasource, "AUC": ROCresults["auc"], "Sensitivity": Sensitivity, "Specificity": Specificity, "Accuracy": round(Acc, 2), "FP": round(100*results["fp"]/Sum, 1), "FN": round(100*results["fn"]/Sum, 1)}, index=[0])
+	csvresults = pd.concat([csvresults, newrow], axis=1)
+else:
+	csvresults = pd.DataFrame({"option": datasource, "AUC": ROCresults["auc"], "Sensitivity": Sensitivity, "Specificity": Specificity, "Accuracy": round(Acc, 2), "FP": round(100*results["fp"]/Sum, 1), "FN": round(100*results["fn"]/Sum, 1)}, index=[0])
 
 
+csvresults.to_csv(fname)
 
-
-
-
-
-
-
-
-
-
-
-
+# Save image
+with open("../results/" + str(course) + "/week#.out", "wb") as outFile:
+	pickle.dump([datasource, modelparameter, model, tune, test_data, trainedmodel], outFile)

@@ -7,13 +7,14 @@ from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_curve, auc
 
-### TODO: double-check
+# Called by FindParameters
 def create_validation_train_test2(data, vmethod, seed):
 	sampled_train = None
 	sampled_test = None
 
 	if (vmethod == 0):
 		print("naive k-fold validation")
+		# Split => train/test = 66.7/33.3
 		(sampled_train, sampled_test) = train_test_split(data, test_size=0.333, train_size=0.667, random_state=seed, shuffle=True)
 	elif (vmethod == 1):
 		print("stratified sampling")
@@ -29,6 +30,8 @@ def create_validation_train_test2(data, vmethod, seed):
 
 	return (sampled_train, sampled_test)
 
+# Called by FindParameters
+# Gives back tp, tn, fp, fn
 def AnalyzeErrorResp(predicted, actual):
 	true_positive = 0
 	true_negative = 0
@@ -53,16 +56,12 @@ def AnalyzeErrorResp(predicted, actual):
 
 	return {"fn": false_negative, "fp": false_positive, "tn": true_negative, "tp": true_positive, "total": totalresults}
 
-#
-# Haven't fully tested, translated
-#
-### TODO: double-check
+# Called by train.py
 def FindParameters(coursename, data):
-	random.seed(18)#!!!!!!!!!!!!!!!!!!!!!! (1, 5): 60.8%, (6, 8): 64.2%, 9: 61.93%, 10, 11, 12, 18: 65.34%, 
+	# (1, 5): 60.8%, (6, 8): 64.2%, 9: 61.93%, (10, 11, 12, 18): 65.34%
+	random.seed(18)
 
-	#
-	# TODO: iteration can be changed
-	#
+	# iteration can be changed
 	iteration = 10
 	weightseq = np.arange(1.0, 2.1, 0.1)
 	costseq = [2 ** i for i in range(-5, 2)]
@@ -90,6 +89,7 @@ def FindParameters(coursename, data):
 	validation_method = 0   # naive k-fold validation is default value
 
 	for it in range(iteration):
+		# Pass in "random" number to reproduce output
 		sample = create_validation_train_test2(data, validation_method, random.randint(0, 2**32-1))
 		my_train = sample[0]
 		my_test = sample[1]
@@ -151,9 +151,7 @@ def FindParameters(coursename, data):
 	resultstable.columns = ["C", "gamma", "classweight", "avg_AUC", "avg_dist", "avg_numofSVs", "avg_sensitivity", "avg_fpr", "avg_kappa", "avg_accuracy", "avg_trainaccuracy"]
 	#print(resultstable)
 
-	#
-	# TODO: graph not completed
-	#
+	# Generates validation graph
 	if (validation_method == 0):
 		pp = PdfPages("../results/" + str(coursename) + "/ROC-naive.pdf")
 		plt.plot(list(avg_fpr), list(avg_sensitivity), "b.")
@@ -165,24 +163,32 @@ def FindParameters(coursename, data):
 		pp.close()
 		plt.close("all")
 
-		#
-		# Leaving out the validation for now
-		#
 		pp = PdfPages("../results/" + str(coursename) + "/validation.pdf")
 		plt.figure(1)
-		plt.plot(list(resultstable.index), list(avg_accuracy), "bx", linewidth=3.0)
+		plt.plot(list(resultstable.index), list(avg_accuracy), "b.-", linewidth=1.0)
+		for i in range(len(resultstable.index)):
+			plt.text(list(resultstable.index)[i], list(avg_accuracy)[i], list(resultstable.index)[i], fontsize=4)
+
+		plt.plot(list(resultstable.index), list(avg_trainaccuracy), "g.-", linewidth=1.0)
+		plt.plot(list(resultstable.index), list(avg_dist), "r.-", linewidth=1.0)
+		for i in range(len(resultstable.index)):
+			plt.text(list(resultstable.index)[i], list(avg_dist)[i], list(resultstable.index)[i], fontsize=4)
+
 		plt.xlabel("rownames(resultstable)")
 		plt.ylabel("avg_accuracy")
+		plt.legend(("train", "validation", "dist"), loc="upper left")
 		plt.savefig(pp, format="pdf")
 
 		plt.figure(2)
-		plt.plot(list(resultstable.index), list(avg_numofSVs), "r^", linewidth=3.0)
+		plt.plot(list(resultstable.index), list(avg_numofSVs), "r.-", linewidth=1.0)
 		plt.xlabel("rownames(resultstable)")
 		plt.ylabel("avg_numofSVs")
 		plt.savefig(pp, format="pdf")
 
 		plt.figure(3)
-		plt.plot(list(resultstable.index), list(avg_AUC), "go", linewidth=3.0)
+		plt.plot(list(resultstable.index), list(avg_AUC), "g.-", linewidth=1.0)
+		for i in range(len(resultstable.index)):
+			plt.text(list(resultstable.index)[i], list(avg_AUC)[i], list(resultstable.index)[i], fontsize=5)
 		plt.xlabel("rownames(resultstable)")
 		plt.ylabel("avg_AUC")
 		plt.savefig(pp, format="pdf")
@@ -191,15 +197,14 @@ def FindParameters(coursename, data):
 		plt.close("all")
 	else:
 		pp = PdfPages("../results/" + str(coursename) + "/ROC-stratified.pdf")
-		plt.plot(list(avg_fpr), list(avg_sensitivity), 'b.')
+		plt.plot(list(avg_fpr), list(avg_sensitivity), 'b.-')
 		plt.axis([0, 1, 0, 1])
 		plt.xlabel("avg_fpr")
 		plt.ylabel("avg_sensitivity")
 		plt.title(str(coursename) + ": ROC-stratified")
-		#
-		# ??????
-		#
-		# text(avg_fpr, avg_sensitivity,labels=labels, pos=2, cex=0.8)
+
+		# Double Check when encountered
+		#plt.text(avg_fpr, avg_sensitivity, labels)
 		plt.savefig(pp, format="pdf")
 		pp.close()
 
@@ -215,11 +220,12 @@ def FindParameters(coursename, data):
 			resultstable = resultstable_no_overfitting
 
 		print("Original...")
-		print("MAX avg_AUC IS:")
-		# Find the last parameters
+		print("max avg_AUC is:")
+		# Find the last parameters, use a reversed list to find that index
 		AUCind = len(resultstable["avg_AUC"]) - list(resultstable["avg_AUC"][::-1]).index(max(resultstable["avg_AUC"])) - 1
 		print(max(resultstable["avg_AUC"]))
 		minpair = resultstable.iloc[AUCind]
+		print("minpair is:")
 		print(minpair)
 		print("MAX avg_acc IS:", max(list(resultstable["avg_accuracy"])))
 

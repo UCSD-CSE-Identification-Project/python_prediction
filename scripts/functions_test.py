@@ -14,7 +14,7 @@ def AnalyzeConfidence(coursename, examscore, total, response, confidence):
 	return
 
 def chooseROCCurvecolor(coursename):
-	linecolor = ["steelblue", "darkgreen", "orangered2", "darkorange4", "mediumpurple"]
+	linecolor = ["blue", "green", "red", "orange", "purple"]
 	shapecolor = ["lightskyblue1", "palegreen2", "lightsalmon1", "sandybrown", "thistle1"]
 
 	# Default line and shape color
@@ -55,7 +55,7 @@ def DrawROCCurve(coursename, actualpf, predictedprobability):
 	AUC = auc(fpr, tpr)
 
 	plt.title("Receiver Operating Characteristic")
-	plt.plot(fpr, tpr, "b", label="AUC = %0.2f" % AUC, lw=1.0)
+	plt.plot(fpr, tpr, line, label="AUC = %0.2f" % AUC, lw=1.0)
 	plt.legend(loc = "lower right")
 	plt.plot([0, 1], [0, 1], lw=1.0, color="navy", linestyle="--")
 	plt.xlim([0, 1])
@@ -147,6 +147,45 @@ def DrawROCCurve(coursename, actualpf, predictedprobability):
     # Skipping ci=ci(roc_obj, of="auc")
 	return {"roc": roc_obj, "auc": AUC, "bestthreshold": bestthreshold}
 
+# Called by test.py
+def DrawbasicROCCurve(coursename, actualpf, predictedresponse, predictedprobability):
+	(line, shape, threstext) = chooseROCCurvecolor(coursename)
+
+	fname = "../results/" + str(coursename) + "/ROCbasic-" + str(coursename) + ".pdf"
+
+	pp = PdfPages(fname)
+	(fpr, tpr, thresholds) = roc_curve(actualpf, predictedprobability)
+	roc_obj = (fpr, tpr, thresholds)
+	AUC = auc(fpr, tpr)
+
+	plt.title("Receiver Operating Characteristic")
+	plt.plot(fpr, tpr, line, label="AUC = %0.2f" % AUC, lw=1.0)
+	plt.legend(loc = "lower right")
+	plt.plot([0, 1], [0, 1], lw=1.0, color="navy", linestyle="--")
+	plt.xlim([0, 1])
+	plt.ylim([0, 1.05])
+
+	# Find the best coordinates
+	criterion = [(1-tpr[i])**2 + fpr[i]**2 for i in range(len(tpr))]
+	bestthreshold = thresholds[criterion.index(min(criterion))]
+
+	coords_tpr = np.linspace(0, 1, 21)
+	targetX = np.interp(coords_tpr, tpr, fpr)
+	plt.plot(targetX, coords_tpr, "go")
+	fprs = []
+	ci_lowers = []
+	ci_uppers = []
+
+	plt.ylabel("True Positive Rate")
+	plt.xlabel("False Positive Rate")
+	plt.savefig(pp, format="pdf")
+	pp.close()
+
+	AUC = round(AUC, 2)
+
+	return {"roc": roc_obj, "auc": AUC, "bestthreshold": bestthreshold}
+
+# Called by test.py
 def AnalyzeError(predicted, actual, p):
 	true_positive = 0
 	true_negative = 0
@@ -171,6 +210,7 @@ def AnalyzeError(predicted, actual, p):
 
 	return {"fn": false_negative, "fp": false_positive, "tn": true_negative, "tp": true_positive, "total": totalresults}
 
+# Called by test.py
 def AnalyzeError_logitonly(predicted, actual, p=0.5):
 	true_positive = 0
 	true_negative = 0

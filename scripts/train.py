@@ -55,6 +55,7 @@ if (model == 1):
 		parameter = funcTrain.FindParameters(course, trainset)
 	elif (tunemethod == 3):
 		print("We are using pre-tuned modeling parameters... these values are valid only when the data is corr only, and up to any week")
+		# These parameters are from R
 		parameter_values = funcTrain.Obtain_PreTuned_Parameters(model)
 
 		week4_respcorr_parameter = pd.DataFrame.from_dict({"cs1": parameter_values[0], "cse8a": parameter_values[1], "cse12": parameter_values[2], "cse100": parameter_values[3], "cse141": parameter_values[4]})
@@ -80,13 +81,8 @@ if (model == 0):
 	### TODO: double-check
 	mymodel = sm.GLM(trainset["exam_total"], trainset.drop(columns=["exam_total"]), family=sm.families.Binomial()).fit()
 	print(mymodel.summary())
-	# Odds ratios only
+	# Odds ratios only, not used for now, seems only calculates e^x
 	#exp(coef(mymodel))
-	#
-	#???/
-	#
-	# math.exp(list(mymodel.params))
-
 elif (model == 1):
 	# Not setting seed for now
 	# set.seed(389)
