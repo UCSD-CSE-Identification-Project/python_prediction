@@ -30,7 +30,7 @@ def pair_data(course):
 
 	for i in range(paired_qs.shape[0]):
 		if (course == "cs1"):
-			# When reading in corresponding_questions_original.csv, the last column will be float because of NaN
+			# When reading in corresponding_questions.csv, the last column will be float because of NaN
 			if (pd.isna(paired_qs["FA13_ID"][i]) or pd.isna(paired_qs["FA14_ID"][i])):
 				new_uids.append("qq"+str(qq))
 				qq += 1

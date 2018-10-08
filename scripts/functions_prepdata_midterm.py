@@ -47,18 +47,18 @@ def load_midterm(course, usefirstmidterm):
 		test = pd.read_csv("../data/cse141/exams_FA16.csv", na_values=["<NA>"])
 
 	if (course == "cse8a" or course == "cse100"):
+		# Because of the flag and resetting the cutoff week, midterm is not automatically
+		# selected to be the closest one to the cutoff week user inputted
 		if (usefirstmidterm == 1):
 			train = train[["anid", "midterm1"]]
 			test = test[["anid", "midterm1"]]
 			# Change column name to midterm
-			# Should this be accepted?
 			train.columns = ["anid", "midterm"]
 			test.columns = ["anid", "midterm"]
 		else:
 			train = train[["anid", "midterm2"]]
 			test = test[["anid", "midterm2"]]
 			# Change column name to midterm
-			# Should this be accepted?
 			train.columns = ["anid", "midterm"]
 			test.columns = ["anid", "midterm"]
 	else:

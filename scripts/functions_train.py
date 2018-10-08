@@ -195,6 +195,7 @@ def FindParameters(coursename, data):
 
 		pp.close()
 		plt.close("all")
+	# Can ignore
 	else:
 		pp = PdfPages("../results/" + str(coursename) + "/ROC-stratified.pdf")
 		plt.plot(list(avg_fpr), list(avg_sensitivity), 'b.-')

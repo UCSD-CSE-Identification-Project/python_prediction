@@ -7,12 +7,14 @@ def score_to_binary(df):
 
 	fail_score = df["exam_total"].quantile(failing_percentage, interpolation="nearest")
 
-	# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	# Currently no factor feature in the python version, not the same as R's factor
+	# Factorize
+	exam_total=[ (1 if (score<fail_score) else 0) for score in df["exam_total"] ]
+	raw_cat = pd.Categorical(exam_total, categories=[0, 1], ordered=True)
+	exam_total = pd.Series(raw_cat)
 
-	#print([ (1 if (score<fail_score) else 0) for score in df["exam_total"] ])
-	#print(pd.factorize([ (1 if (score<fail_score) else 0) for score in df["exam_total"] ]))
-	return (df.assign(exam_total=[ (1 if (score<fail_score) else 0) for score in df["exam_total"] ]))
+	return (df.assign(exam_total=exam_total))
+
+	#return (df.assign(exam_total=[ (1 if (score<fail_score) else 0) for score in df["exam_total"] ]))
 
 def load_final(course):
 	if (course == "cs1"):
