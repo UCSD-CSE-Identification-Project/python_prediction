@@ -13,7 +13,7 @@ import pickle
 parser = argparse.ArgumentParser(description="Preprocess student data based on user input")
 parser.add_argument("course", choices=["cs1", "cse8a", "cse12", "cse100", "cse141"], help="choose one from: cs1, cse8a, cse12, cse100, cse141 to prep data")
 parser.add_argument("cutoffweek", type=int, help="up to which week will be in the testset (cs1 can model up to weeks 3-12, all other courses can model up to weeks 3-10)")
-parser.add_argument("components", help="combination of course components to model with, at least 1 component, at most all 4 components: c (clicker), m (midterm), p (prereq), q (quiz), a (assignment)")
+parser.add_argument("components", help="combination of course components to model with, at least 1 component, at most all 5 components: c (clicker), m (midterm), p (prereq), q (quiz), a (assignment)")
 args = parser.parse_args()
 
 # Get the arguments
