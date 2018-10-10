@@ -195,13 +195,13 @@ def AnalyzeError(predicted, actual, p):
 	actual = list(actual)
 
 	for i in range(len(actual)):
-		if (predicted[i] >= p and actual[i] == 2):
+		if (predicted[i] >= p and actual[i] == 1):
 			true_positive += 1
 			totalresults.append("3")
-		elif (predicted[i] >= p and actual[i] == 1):
+		elif (predicted[i] >= p and actual[i] == 0):
 		 	false_positive += 1
 		 	totalresults.append("1")
-		elif (predicted[i] < p and actual[i] == 1):
+		elif (predicted[i] < p and actual[i] == 0):
 			true_negative += 1
 			totalresults.append("4")
 		else:

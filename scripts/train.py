@@ -78,11 +78,9 @@ if (model == 1):
 
 # model: 0 - logit, 1 - svm, 2 - rf
 if (model == 0):
-	### TODO: double-check
 	mymodel = sm.GLM(trainset["exam_total"], trainset.drop(columns=["exam_total"]), family=sm.families.Binomial()).fit()
+	# Uncomment to see the model
 	print(mymodel.summary())
-	# Odds ratios only, not used for now, seems only calculates e^x
-	#exp(coef(mymodel))
 elif (model == 1):
 	# Not setting seed for now
 	# set.seed(389)
@@ -98,6 +96,8 @@ elif (model == 3):
 	# set.seed(389)s
 	print("SVM model training starts...")
 	mymodel = SVC(probability=True).fit(trainset.drop(columns=["exam_total"]), trainset["exam_total"])
+	# Uncomment to see the model
+	print(mymodel.summary())
 elif (model == 2):
 	# model: rf
 	pass

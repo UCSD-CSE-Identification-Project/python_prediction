@@ -31,7 +31,6 @@ scaled_data_test = None
 # Called at the end of prepdata
 def normalize_data(data):
 	for i in range(2, data.shape[1]):
-		# data = data.assign(exam_total=scale(data["exam_total"]))
 		data = data.assign(**{data.columns[i]: scale(data[data.columns[i]])})
 	
 	return data
@@ -175,19 +174,32 @@ dynamic_option = 0
 	#scaled.data.train = scaled.data.dynamic$train
 	#scaled.data.test = scaled.data.dynamic$test
 
-print("trainset columns: ")
-print(scaled_data_train.columns)
+# Uncomment to just see the columns
+#print("trainset columns: ")
+#print(scaled_data_train.columns)
 
-print("testset columns: ")
-print(scaled_data_test.columns)
+#print("testset columns: ")
+#print(scaled_data_test.columns)
 
 # Already sorted by anid
 scaled_data_train = scaled_data_train.sort_values(by=["anid"])
 scaled_data_test = scaled_data_test.sort_values(by=["anid"])
 
+# Uncomment if want to save data before normalization
+scaled_data_train.to_csv("../results/" + course + "/train_before_norm.csv", index=False)
+scaled_data_test.to_csv("../results/" + course + "/test_before_norm.csv", index=False)
+
 # Before scaling, R python are exactly the same. Different after scaling.
 scaled_data_train = normalize_data(scaled_data_train)
 scaled_data_test = normalize_data(scaled_data_test)
+
+# Uncomment if want to save data after normalization
+scaled_data_train.to_csv("../results/" + course + "/train_after_norm.csv", index=False)
+scaled_data_test.to_csv("../results/" + course + "/test_after_norm.csv", index=False)
+
+# Uncomment to see the dataframe
+print(scaled_data_train)
+#print(scaled_data_test)
 
 # Save the image
 with open("../results/" + course + "/PreppedData_train_and_test.out", "wb") as outFile:
