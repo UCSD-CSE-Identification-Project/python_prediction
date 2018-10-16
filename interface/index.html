@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Prediction Model</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="preprocessApp" ng-controller="preprocessCtrl">
+        <div class="center">
+            <h2 align="center">Prediction Model</h2>
+            <h3 align="center">To process data, SELECT: class name, cutoff week, score components</h3>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <h4>Class name: </h4><br>
+                <select ng-model="selectedName" ng-options="x for x in classnames" ng-change="updateCompo()">
+                </select>
+            </div>
+    
+            <div class="column">
+                <form>
+                    <h4>Cutoff Week:</h4><br>
+                    <input type="radio" ng-model="week" value="1" ng-click="updateCompo()">1
+                    <input type="radio" ng-model="week" value="2" ng-click="updateCompo()">2
+                    <input type="radio" ng-model="week" value="3" ng-click="updateCompo()">3
+                    <input type="radio" ng-model="week" value="4" ng-click="updateCompo()">4
+                    <input type="radio" ng-model="week" value="5" ng-click="updateCompo()">5
+                </form>
+
+            </div>
+
+            <div class="column">
+                <form>
+                    <h4>Check all score components to include:</h4><br>
+                    <div class="column"><p>Prerequisite</p><input type="checkbox" ng-model="prerequisite" ng-click="updateCompo()"></div>
+                    <div class="column"><p>Midterm</p><input type="checkbox" ng-model="midterm" ng-click="updateCompo()"></div>
+                    <div class="column"><p>Clicker</p><input type="checkbox" ng-model="clicker" ng-click="updateCompo()"></div>
+                    <div class="column2"><p>Quiz</p><input type="checkbox" ng-model="quiz" ng-click="updateCompo()"></div>
+                    <div class="column2"><p>Assignment</p><input type="checkbox" ng-model="assignment" ng-click="updateCompo()"></div>
+                </form>
+            </div>
+
+        </div> <!--End of input field-->
+
+        <div class="center" ng-show="doneInput">
+            <h2>Add class: {{selectedName}}, include data up to week: {{week}}, add score components: {{component}}</h2>
+        </div>
+
+        <div style="margin: auto; text-align: center;">
+            <button class="newButton" ng-disabled="!doneInput" ng-click="prepdata()">Start Processing</button>
+        </div>
+
+
+        <button ng-hide="true" ng-disabled="true" ng-click="showResult()">Show Dataframe</button>
+        <div ng-show="showMe">
+            <h1>Menu:</h1>
+            <div>Pizza</div>
+            <div>Pasta</div>
+            <div>Pesce</div>
+        </div>
+    </div> <!--End of ng application-->
+    
+    <script>
+        var app = angular.module("preprocessApp", []);
+        app.controller("preprocessCtrl", function ($scope, $http) {
+            $scope.classnames = ["CS1", "CSE8A", "CSE12", "CSE100", "CSE141"];
+            $scope.clicker = false;
+            $scope.doneInput = false;
+            $scope.component = "";
+
+            $scope.updateCompo = function() {
+                $scope.component = "";
+                if ($scope.prerequisite) {
+                    $scope.component = $scope.component + "p";
+                }
+                if ($scope.midterm) {
+                    $scope.component = $scope.component + "m";
+                }
+                if ($scope.clicker) {
+                    $scope.component = $scope.component + "c";
+                }
+                if ($scope.quiz) {
+                    $scope.component = $scope.component + "q";
+                }
+                if ($scope.assignment) {
+                    $scope.component = $scope.component + "a";
+                }
+
+                if ($scope.component != "" && $scope.selectedName && $scope.week) {
+                    $scope.doneInput = true;
+                }
+                else {
+                    $scope.doneInput = false;
+                }
+            };
+
+            $scope.prepdata = function() {
+                var data = {
+                    classname: $scope.selectedName,
+                    cutoffweek: $scope.week,
+                    components: $scope.component
+                };
+                $http.post("/cgi-bin/test/script/prepdata.py", JSON.stringify(data))
+                .then(function mySuccess(response) {
+
+                }, function myError(response) {
+
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
